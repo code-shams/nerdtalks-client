@@ -1,0 +1,12 @@
+@import "tailwindcss";
+.link-hover {
+    @apply hover:bg-slate-200/15;
+}
+
+.link-style {
+    @apply px-4 py-2 rounded-3xl;
+}
+
+a.active {
+    @apply text-blue-600;
+}

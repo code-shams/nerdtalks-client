@@ -1,1 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
+
+/* ?Setting background for the overall site */
+body {
+    background: black;
+    color: white;
+}
+
+/* ? Fonts */
+.pri-font {
+    font-family: "Inter", sans-serif;
+}
+.sec-font {
+    font-family: "Lexend Deca", sans-serif;
+}
+
+/* ?Custom Container */
+.contain {
+    @apply max-w-screen-2xl mx-auto w-11/12;
+}
