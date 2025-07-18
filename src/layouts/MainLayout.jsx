@@ -4,7 +4,7 @@ import Navbar from "../shared/Navbar/Navbar";
 
 const MainLayout = () => {
     return (
-        <div>
+        <div className="pri-font">
             <header className="py-3 border-b-1 border-b-slate-100/20">
                 <Navbar></Navbar>
             </header>

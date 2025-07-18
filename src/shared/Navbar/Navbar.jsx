@@ -1,5 +1,5 @@
 import React, { use, useState } from "react";
-import logo from "../../../public/logo2.png";
+// import logo from "../../../public/logo2.png";
 import { Home, Gem, Bell, LogIn } from "lucide-react";
 import { Link, NavLink } from "react-router";
 import "./navbar.css";
@@ -10,7 +10,11 @@ const Navbar = () => {
     return (
         <nav className="contain sec-font flex items-center justify-between">
             <Link to="/" className="flex items-center gap-1">
-                <img className="w-8 h-8 md:w-12 md:h-12" src={logo} alt="" />
+                <img
+                    className="w-8 h-8 md:w-12 md:h-12"
+                    src="/logo2.png"
+                    alt=""
+                />
                 <h1 className="text-xl md:text-2xl font-bold">nerdtalks</h1>
             </Link>
             <div className="hidden lg:flex lg:items-center text-lg gap-5 text-slate-200">
@@ -49,10 +53,10 @@ const Navbar = () => {
             </div>
 
             {/* //?Dynamic Login according to user state */}
-            {user?.email? "" : ""}
+            {user?.email ? "" : ""}
             <NavLink
                 className="text-lg text-slate-200 link-hover link-style flex items-center gap-2"
-                to="/login"
+                to="/auth/login"
             >
                 <LogIn size={24} />
                 Join Us
