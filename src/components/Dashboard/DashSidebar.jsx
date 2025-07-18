@@ -8,12 +8,7 @@ import { Link, useNavigate } from "react-router";
 import useAxios from "../../hooks/axios/useAxios";
 import { Bounce, toast } from "react-toastify";
 
-const DashSidebar = ({
-    handleSidebarToggle,
-    sidebarActive,
-    user,
-    logoutUser,
-}) => {
+const DashSidebar = ({ sidebarActive, user, logoutUser }) => {
     const { axiosSecure } = useAxios();
     const [dbUser, setDbUser] = useState({});
     const navigate = useNavigate();
@@ -36,21 +31,17 @@ const DashSidebar = ({
     return (
         <div className="min-h-screen border-r border-slate-200/15">
             <div className="border-b border-slate-200/15 flex items-center gap-5 p-2">
-                <button onClick={handleSidebarToggle}>
-                    {sidebarActive ? (
-                        <SquareArrowLeft className="size-4 sm:size-7" />
-                    ) : (
-                        <SquareArrowRight className="size-4 sm:size-7" />
-                    )}
-                </button>
                 <div
-                    className={`transition-all duration-300 ${
+                    className={`transition-all duration-300 w-full flex flex-col ${
                         sidebarActive
                             ? "translate-0 opacity-100"
                             : "translate-x-full opacity-0"
                     }`}
                 >
-                    <Link to="/" className="flex items-center gap-1 sec-font">
+                    <Link
+                        to="/"
+                        className="flex items-center ml-auto gap-1 sec-font"
+                    >
                         <img
                             className="w-8 h-8 sm:w-12 sm:h-12"
                             src="/logo.png"
