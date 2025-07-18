@@ -81,20 +81,20 @@ const Navbar = () => {
                         alt=""
                     />
                     {dropdownActive ? (
-                        <div className="absolute z-50 -right-5 top-18 rounded w-max flex flex-col gap-3 bg-slate-200/20 py-3 px-5">
+                        <div className="absolute z-50 right-0 sm:-right-5 top-12 sm:top-18 rounded w-max flex flex-col gap-3 bg-[#2D2E30] py-2 px-2 sm:px-5 text-xs sm:text-base">
                             <span className="flex items-center gap-2">
-                                <UserCircle className="size-5"></UserCircle>
+                                <UserCircle className="size-4 sm:size-5"></UserCircle>
                                 {user?.displayName}
                             </span>
                             <Link className="flex items-center gap-2">
-                                <LayoutDashboard className="size-5"></LayoutDashboard>
+                                <LayoutDashboard className="size-4 sm:size-5"></LayoutDashboard>
                                 Dashboard
                             </Link>
                             <button
                                 onClick={handleSignOut}
                                 className="flex items-center gap-2 cursor-pointer"
                             >
-                                <LogOut className="size-5"></LogOut>
+                                <LogOut className="size-4 sm:size-5"></LogOut>
                                 Log Out
                             </button>
                         </div>
