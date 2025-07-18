@@ -130,24 +130,13 @@ const SignInPage = () => {
     };
 
     return (
-        <div className="flex items-center justify-center px-4 py-10">
-            <div className="w-full max-w-md bg-slate-200/10 border border-slate-100/20 rounded-2xl shadow-lg p-8">
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="flex items-center gap-1 sec-font justify-center">
-                        <img
-                            className="w-8 h-8 md:w-12 md:h-12"
-                            src="/logo.png"
-                            alt="logo"
-                        />
-                        <h1 className="text-xl md:text-2xl font-bold">
-                            nerdtalks
-                        </h1>
-                    </div>
-
+        <div className="flex items-center justify-center px-4 mt-5">
+            <div className="w-full max-w-md bg-slate-200/10 border border-slate-100/20 rounded-2xl shadow-lg p-4 sm:p-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
                         <label
                             htmlFor="email"
-                            className="block mb-2 text-sm font-medium text-gray-300"
+                            className="block mb-2 text-xs sm:text-sm font-medium text-gray-300"
                         >
                             Email Address
                         </label>
@@ -155,13 +144,13 @@ const SignInPage = () => {
                             type="email"
                             id="email"
                             placeholder="you@nerdtalks.app"
-                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-2.5"
+                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-xs sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-1.5 sm:p-2.5"
                             {...register("email", {
                                 required: "Email is required",
                             })}
                         />
                         {errors.email && (
-                            <p className="text-sm text-red-500 mt-1">
+                            <p className="text-xs sm:text-sm text-red-500 mt-1">
                                 {errors.email.message}
                             </p>
                         )}
@@ -170,7 +159,7 @@ const SignInPage = () => {
                     <div>
                         <label
                             htmlFor="name"
-                            className="block mb-2 text-sm font-medium text-gray-300"
+                            className="block mb-2 text-xs sm:text-sm font-medium text-gray-300"
                         >
                             Name
                         </label>
@@ -178,13 +167,13 @@ const SignInPage = () => {
                             type="text"
                             id="name"
                             placeholder="your name"
-                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-2.5"
+                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-xs sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-1.5 sm:p-2.5"
                             {...register("name", {
                                 required: "Name is required",
                             })}
                         />
                         {errors.name && (
-                            <p className="text-sm text-red-500 mt-1">
+                            <p className="text-xs sm:text-sm text-red-500 mt-1">
                                 {errors.name.message}
                             </p>
                         )}
@@ -193,7 +182,7 @@ const SignInPage = () => {
                     <div className="relative">
                         <label
                             htmlFor="password"
-                            className="block mb-2 text-sm font-medium text-gray-300"
+                            className="block mb-2 text-xs sm:text-sm font-medium text-gray-300"
                         >
                             Password
                         </label>
@@ -201,7 +190,7 @@ const SignInPage = () => {
                             type={showPass ? "text" : "password"}
                             id="password"
                             placeholder="••••••••"
-                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-2.5"
+                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-xs sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-1.5 sm:p-2.5"
                             {...register("password", {
                                 required: "Password is required",
                                 minLength: {
@@ -219,7 +208,7 @@ const SignInPage = () => {
                         <button
                             type="button"
                             onClick={handleShowPass}
-                            className="absolute top-9 right-2"
+                            className="absolute top-7.5 sm:top-9.5 right-2"
                         >
                             {showPass ? (
                                 <FaEyeSlash size={24} />
@@ -228,7 +217,7 @@ const SignInPage = () => {
                             )}
                         </button>
                         {errors.password && (
-                            <p className="text-sm text-red-500 mt-1">
+                            <p className="text-xs sm:text-sm text-red-500 mt-1">
                                 {errors.password.message}
                             </p>
                         )}
@@ -237,7 +226,7 @@ const SignInPage = () => {
                     <div className="py-2">
                         <label
                             htmlFor="image"
-                            className="block mb-2 text-sm font-medium text-gray-300"
+                            className="block mb-2 text-xs sm:text-sm font-medium text-gray-300"
                         >
                             Upload Profile Image
                         </label>
@@ -246,13 +235,13 @@ const SignInPage = () => {
                             id="image"
                             name="image"
                             accept="image/*"
-                            className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+                            className="w-full text-xs sm:text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
                             {...register("image", {
                                 required: "Image upload is required",
                             })}
                         />
                         {errors.image && (
-                            <p className="text-sm text-red-500 mt-1">
+                            <p className="text-xs sm:text-sm text-red-500 mt-1">
                                 {errors.image.message}
                             </p>
                         )}
@@ -262,7 +251,7 @@ const SignInPage = () => {
                         <button
                             type="button"
                             disabled
-                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-center gap-2 transition duration-200"
+                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-1.5 sm:py-2.5 text-center inline-flex items-center justify-center gap-2 transition duration-200"
                         >
                             <svg
                                 className="animate-spin h-5 w-5 text-white"
@@ -289,15 +278,15 @@ const SignInPage = () => {
                     ) : (
                         <button
                             type="submit"
-                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-200"
+                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-1.5 sm:py-2.5 text-center transition duration-200"
                         >
                             Create your account
                         </button>
                     )}
 
-                    <div className="flex items-center justify-between gap-4 mb-6">
+                    <div className="flex items-center justify-between gap-4 mb-3 sm:mb-6">
                         <hr className="flex-grow border-gray-700" />
-                        <span className="text-sm text-gray-400 whitespace-nowrap">
+                        <span className="text-xs sm:text-sm text-gray-400 whitespace-nowrap">
                             or
                         </span>
                         <hr className="flex-grow border-gray-700" />
@@ -306,13 +295,13 @@ const SignInPage = () => {
                     <button
                         onClick={handleGoogleSignIn}
                         type="button"
-                        className="w-full flex items-center justify-center gap-2 text-white hover:bg-slate-200/15 border border-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 transition duration-200"
+                        className="w-full flex items-center justify-center gap-2 text-white hover:bg-slate-200/15 border border-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-1.5 sm:py-2.5 transition duration-200"
                     >
                         <FcGoogle className="w-5 h-5" />
                         Sign up with Google
                     </button>
 
-                    <p className="text-sm font-medium text-gray-400 text-center">
+                    <p className="text-xs sm:text-sm font-medium text-gray-400 text-center">
                         Already have an account?{" "}
                         <Link
                             to="/auth/login"

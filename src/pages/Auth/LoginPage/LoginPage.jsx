@@ -74,27 +74,13 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="flex items-center justify-center px-4 py-10">
-            <div className="w-full max-w-md bg-slate-200/10 border border-slate-100/20 rounded-2xl shadow-lg p-8">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div
-                        to="/"
-                        className="flex items-center gap-1 sec-font justify-center"
-                    >
-                        <img
-                            className="w-8 h-8 md:w-12 md:h-12"
-                            src="/logo.png"
-                            alt=""
-                        />
-                        <h1 className="text-xl md:text-2xl font-bold">
-                            nerdtalks
-                        </h1>
-                    </div>
-
+        <div className="flex items-center justify-center px-4 mt-5">
+            <div className="w-full max-w-md bg-slate-200/10 border border-slate-100/20 rounded-2xl shadow-lg p-4 sm:p-8">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label
                             htmlFor="email"
-                            className="block mb-2 text-sm font-medium text-gray-300"
+                            className="block mb-2 text-xs sm:text-sm font-medium text-gray-300"
                         >
                             Email Address
                         </label>
@@ -104,14 +90,14 @@ const LoginPage = () => {
                             id="email"
                             placeholder="you@nerdtalks.app"
                             required
-                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-2.5"
+                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-1.5 sm:p-2.5"
                         />
                     </div>
 
                     <div className="relative">
                         <label
                             htmlFor="password"
-                            className="block mb-2 text-sm font-medium text-gray-300"
+                            className="block mb-2 text-xs sm:text-sm font-medium text-gray-300"
                         >
                             Password
                         </label>
@@ -121,12 +107,12 @@ const LoginPage = () => {
                             id="password"
                             placeholder="••••••••"
                             required
-                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-2.5"
+                            className="w-full bg-[#2a2a40] border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 p-1.5 sm:p:-2.5"
                         />
                         <button
                             type="button"
                             onClick={handleShowPass}
-                            className="absolute top-9 right-2"
+                            className="absolute top-8 sm:top-9 right-2"
                         >
                             {showPass ? (
                                 <FaEyeSlash size={24} />
@@ -142,7 +128,7 @@ const LoginPage = () => {
                         <button
                             type="button"
                             disabled
-                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-center transition duration-200"
+                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-1 sm:py-2.5 text-center inline-flex items-center justify-center transition duration-200"
                         >
                             <svg
                                 aria-hidden="true"
@@ -183,13 +169,13 @@ const LoginPage = () => {
                         // ?When not loading
                         <button
                             type="submit"
-                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-200"
+                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm sm:px-5 py-1 sm:py-2.5 text-center transition duration-200"
                         >
                             Login to your account
                         </button>
                     )}
 
-                    <div className="flex items-center justify-between gap-4 mb-6">
+                    <div className="flex items-center justify-between gap-4 mb-2 sm:mb-6">
                         <hr className="flex-grow border-gray-700" />
                         <span className="text-sm text-gray-400 whitespace-nowrap">
                             or
@@ -200,13 +186,13 @@ const LoginPage = () => {
                     <button
                         onClick={handleGoogleSignIn}
                         type="button"
-                        className="w-full flex items-center justify-center gap-2 text-white hover:bg-slate-200/15 border border-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 transition duration-200"
+                        className="w-full flex items-center justify-center gap-2 text-white hover:bg-slate-200/15 border border-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-1 sm:py-2.5 transition duration-200"
                     >
                         <FcGoogle className="w-5 h-5" />
                         Sign in with Google
                     </button>
 
-                    <p className="text-sm font-medium text-gray-400 text-center">
+                    <p className="text-xs sm:-text-sm font-medium text-gray-400 text-center">
                         Not registered?{" "}
                         <Link
                             to={"/auth/signin"}
