@@ -1,14 +1,33 @@
 import React, { use, useState } from "react";
 // import logo from "../../../public/logo2.png";
-import { Home, Gem, Bell, LogIn } from "lucide-react";
+import {
+    Home,
+    Gem,
+    Bell,
+    LogIn,
+    LogOut,
+    LayoutDashboard,
+    UserCircle,
+} from "lucide-react";
 import { Link, NavLink } from "react-router";
 import "./navbar.css";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 const Navbar = () => {
     const [notifications, setNotifications] = useState(0);
-    const { user } = use(AuthContext);
+
+    // ?Dropdown Logics
+    const [dropdownActive, setDropdownActive] = useState(false);
+    const handleDropdown = () => {
+        setDropdownActive(!dropdownActive);
+    };
+
+    const handleSignOut = () => {
+        logoutUser();
+    };
+
+    const { user, logoutUser } = use(AuthContext);
     return (
-        <nav className="contain sec-font flex items-center justify-between">
+        <nav className="contain sec-font flex items-center justify-between py-3">
             <Link to="/" className="flex items-center gap-1">
                 <img
                     className="w-8 h-8 md:w-12 md:h-12"
@@ -53,14 +72,45 @@ const Navbar = () => {
             </div>
 
             {/* //?Dynamic Login according to user state */}
-            {user?.email ? "" : ""}
-            <NavLink
-                className="text-lg text-slate-200 link-hover link-style flex items-center gap-2"
-                to="/auth/login"
-            >
-                <LogIn size={24} />
-                Join Us
-            </NavLink>
+            {user?.email ? (
+                <div className="group relative">
+                    <img
+                        onClick={handleDropdown}
+                        src={user?.photoURL}
+                        className="rounded-full w-10 h-10 sm:w-14 sm:h-14 cursor-pointer"
+                        alt=""
+                    />
+                    {dropdownActive ? (
+                        <div className="absolute z-50 -right-5 top-18 rounded w-max flex flex-col gap-3 bg-slate-200/20 py-3 px-5">
+                            <span className="flex items-center gap-2">
+                                <UserCircle className="size-5"></UserCircle>
+                                {user?.displayName}
+                            </span>
+                            <Link className="flex items-center gap-2">
+                                <LayoutDashboard className="size-5"></LayoutDashboard>
+                                Dashboard
+                            </Link>
+                            <button
+                                onClick={handleSignOut}
+                                className="flex items-center gap-2 cursor-pointer"
+                            >
+                                <LogOut className="size-5"></LogOut>
+                                Log Out
+                            </button>
+                        </div>
+                    ) : (
+                        ""
+                    )}
+                </div>
+            ) : (
+                <NavLink
+                    className="text-sm sm:text-lg text-slate-200 link-hover link-style flex items-center gap-2"
+                    to="/auth/login"
+                >
+                    <LogIn className="size-5" />
+                    Join Us
+                </NavLink>
+            )}
         </nav>
     );
 };
