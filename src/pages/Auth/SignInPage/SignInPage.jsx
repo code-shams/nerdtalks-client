@@ -51,7 +51,7 @@ const SignInPage = () => {
                     transition: Bounce,
                     hideProgressBar: true,
                 });
-                // navigate("/");
+                navigate("/");
             })
             .catch((error) =>
                 toast.error(`${error.message}`, {
@@ -113,7 +113,7 @@ const SignInPage = () => {
                 hideProgressBar: true,
             });
 
-            // navigate("/");
+            navigate("/");
         } catch (error) {
             console.error("Registration Error:", error);
             toast.error(error.message || "Something went wrong", {

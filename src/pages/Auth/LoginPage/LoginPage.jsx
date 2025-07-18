@@ -20,7 +20,7 @@ const LoginPage = () => {
         googleSignIn()
             .then(() => {
                 toast.success("Welcome back!", {
-                    position: "top-center",
+                    position: "bottom-center",
                     autoClose: 3000,
                     theme: "dark",
                     transition: Bounce,
@@ -30,7 +30,7 @@ const LoginPage = () => {
             })
             .catch((error) =>
                 toast.error(`${error.message}`, {
-                    position: "top-center",
+                    position: "bottom-center",
                     autoClose: 3000,
                     theme: "dark",
                     transition: Bounce,
@@ -51,7 +51,7 @@ const LoginPage = () => {
         loginUser(email, password)
             .then(() => {
                 toast.success("Welcome back!", {
-                    position: "top-center",
+                    position: "bottom-center",
                     autoClose: 3000,
                     theme: "dark",
                     transition: Bounce,
@@ -61,7 +61,7 @@ const LoginPage = () => {
             })
             .catch((error) =>
                 toast.error(`${error.message}`, {
-                    position: "top-center",
+                    position: "bottom-center",
                     autoClose: 3000,
                     theme: "dark",
                     transition: Bounce,
@@ -192,7 +192,7 @@ const LoginPage = () => {
                         Sign in with Google
                     </button>
 
-                    <p className="text-xs sm:-text-sm font-medium text-gray-400 text-center">
+                    <p className="text-xs sm:text-sm font-medium text-gray-400 text-center">
                         Not registered?{" "}
                         <Link
                             to={"/auth/signin"}
