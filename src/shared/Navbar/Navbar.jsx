@@ -86,7 +86,10 @@ const Navbar = () => {
                                 <UserCircle className="size-4 sm:size-5"></UserCircle>
                                 {user?.displayName}
                             </span>
-                            <Link className="flex items-center gap-2">
+                            <Link
+                                to="/dashboard"
+                                className="flex items-center gap-2"
+                            >
                                 <LayoutDashboard className="size-4 sm:size-5"></LayoutDashboard>
                                 Dashboard
                             </Link>

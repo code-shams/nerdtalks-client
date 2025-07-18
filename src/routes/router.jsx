@@ -4,6 +4,8 @@ import MainLayout from "../layouts/MainLayout";
 import LoginPage from "../pages/Auth/LoginPage/LoginPage";
 import SignInPage from "../pages/Auth/SignInPage/SignInPage";
 import AuthLayout from "../layouts/AuthLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
+import PrivateRoute from "./PrivateRoute";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -28,6 +30,15 @@ const router = createBrowserRouter([
                 Component: SignInPage,
             },
         ],
+    },
+    {
+        path: "/dashboard",
+        element: (
+            <PrivateRoute>
+                <DashboardLayout></DashboardLayout>
+            </PrivateRoute>
+        ),
+        children: [{}],
     },
 ]);
 
