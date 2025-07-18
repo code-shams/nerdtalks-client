@@ -83,7 +83,7 @@ const LoginPage = () => {
                     >
                         <img
                             className="w-8 h-8 md:w-12 md:h-12"
-                            src="/logo3.png"
+                            src="/logo.png"
                             alt=""
                         />
                         <h1 className="text-xl md:text-2xl font-bold">

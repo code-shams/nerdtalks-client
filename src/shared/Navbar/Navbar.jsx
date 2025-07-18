@@ -12,7 +12,7 @@ const Navbar = () => {
             <Link to="/" className="flex items-center gap-1">
                 <img
                     className="w-8 h-8 md:w-12 md:h-12"
-                    src="/logo2.png"
+                    src="/logo.png"
                     alt=""
                 />
                 <h1 className="text-xl md:text-2xl font-bold">nerdtalks</h1>
