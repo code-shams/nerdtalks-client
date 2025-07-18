@@ -104,10 +104,10 @@ const Navbar = () => {
                 </div>
             ) : (
                 <NavLink
-                    className="text-sm sm:text-lg text-slate-200 link-hover link-style flex items-center gap-2"
+                    className="text-xs sm:text-lg text-slate-200 link-hover link-style flex items-center gap-1 sm:gap-2"
                     to="/auth/login"
                 >
-                    <LogIn className="size-5" />
+                    <LogIn className="size-4 sm:size-5" />
                     Join Us
                 </NavLink>
             )}
