@@ -73,14 +73,14 @@ const Navbar = () => {
 
             {/* //?Dynamic Login according to user state */}
             {user?.email ? (
-                <div className="group relative">
+                <div className="group relative"> 
                     <img
                         onClick={handleDropdown}
                         src={user?.photoURL}
                         className="rounded-full w-10 h-10 sm:w-14 sm:h-14 cursor-pointer"
                         alt=""
                     />
-                    {dropdownActive ? (
+                    {dropdownActive ? ( //?Dropdown Section
                         <div className="absolute z-50 right-0 sm:-right-5 top-12 sm:top-18 rounded w-max flex flex-col gap-3 bg-[#2D2E30] py-2 px-2 sm:px-5 text-xs sm:text-base">
                             <span className="flex items-center gap-2">
                                 <UserCircle className="size-4 sm:size-5"></UserCircle>
