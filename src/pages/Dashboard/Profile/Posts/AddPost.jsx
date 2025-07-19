@@ -1,107 +1,3 @@
-// import React, { useState } from "react";
-// import { useForm } from "react-hook-form";
-// import Select from "react-select";
-// const AddPost = () => {
-//     const {
-//         register,
-//         handleSubmit,
-//         reset,
-//         formState: { errors },
-//     } = useForm();
-
-//     const [selectedTag, setSelectedTag] = useState(null);
-
-//     const [loading, setLoading] = useState(false);
-
-//     const tags = [
-//         { value: "anime", label: "Anime" },
-//         { value: "manga", label: "Manga" },
-//         { value: "coding", label: "Coding" },
-//         { value: "books", label: "Books" },
-//         { value: "tv", label: "TV Shows" },
-//         { value: "games", label: "Games" },
-//         { value: "movies", label: "Movies" },
-//     ];
-//     return (
-//         <div className="pri-font max-w-3xl mx-auto bg-[#121212] p-6 rounded-2xl border border-neutral-800 space-y-6">
-//             <h2 className="text-xl font-semibold text-white">Add a New Post</h2>
-
-//             <form className="space-y-4">
-//                 <div>
-//                     <label className="block text-sm mb-1 text-neutral-300">
-//                         Title *
-//                     </label>
-//                     <input
-//                         type="text"
-//                         {...register("title", { required: true })}
-//                         placeholder="Enter post title"
-//                         className="w-full p-2 rounded-md bg-neutral-900 border border-neutral-700 text-white"
-//                     />
-//                     {errors.title && (
-//                         <p className="text-red-500 text-xs mt-1">
-//                             Title is required
-//                         </p>
-//                     )}
-//                 </div>
-
-//                 <div>
-//                     <label className="block text-sm mb-1 text-neutral-300">
-//                         Description *
-//                     </label>
-//                     <textarea
-//                         {...register("description", { required: true })}
-//                         placeholder="Write your post..."
-//                         rows="6"
-//                         className="w-full p-2 rounded-md bg-neutral-900 border border-neutral-700 text-white resize-none"
-//                     />
-//                     {errors.description && (
-//                         <p className="text-red-500 text-xs mt-1">
-//                             Description is required
-//                         </p>
-//                     )}
-//                 </div>
-
-//                 <div>
-//                     <label className="block text-sm mb-1 text-neutral-300">
-//                         Tag *
-//                     </label>
-//                     <Select
-//                         options={tags}
-//                         value={selectedTag}
-//                         onChange={setSelectedTag}
-//                         placeholder="Select a tag"
-//                         className="text-black"
-//                     />
-//                     <select name="" id=""></select>
-//                 </div>
-
-//                 <div className="text-sm text-neutral-500 mt-2">
-//                     <p>
-//                         <span className="font-medium text-white">Author:</span>{" "}
-//                         {/* {dbUser.name} */}
-//                         {"author name"}
-//                     </p>
-//                     <p>
-//                         <span className="font-medium text-white">Email:</span>{" "}
-//                         {/* {dbUser.email} */}
-//                         {"author email"}
-//                     </p>
-//                 </div>
-
-//                 <button
-//                     type="submit"
-//                     disabled={loading}
-//                     className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
-//                 >
-//                     {loading ? "Posting..." : "Submit Post"}
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default AddPost;
-
 import Select from "react-select";
 import React, { use, useState } from "react";
 import { AuthContext } from "../../../../contexts/Auth/AuthContext";
@@ -188,10 +84,12 @@ const AddPost = () => {
         }),
     };
 
+
+    // ?Post Limited Exceeded Scenerio
     if (isLocked) {
         return (
             <div className="space-y-6 pri-font">
-                {/* Locked State */}
+                {/* //? Locked State */}
                 <div className="bg-[#121212] p-8 rounded-2xl border border-neutral-800 text-center">
                     <div className="flex justify-center mb-6">
                         <div className="w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center">
@@ -232,25 +130,25 @@ const AddPost = () => {
     }
 
     return (
-        <div className="space-y-6 pri-font mb-20">
-            {/* Header */}
-            <div className="bg-[#121212] p-6 rounded-2xl border border-neutral-800">
-                <div className="flex items-center gap-3 mb-2">
-                    <PenTool className="w-6 h-6 text-blue-500" />
-                    <h1 className="text-2xl font-semibold">Create New Post</h1>
+        <div className="space-y-3 sm:space-y-6 pri-font mb-20">
+            {/*//? Header */}
+            <div className="bg-[#121212] p-3 sm:p-6 rounded-2xl border border-neutral-800">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                    <PenTool className="size-4 sm:size-5 text-blue-500" />
+                    <h1 className="text-lg sm:text-2xl font-semibold">Create New Post</h1>
                 </div>
-                <p className="text-neutral-400 text-sm">
+                <p className="text-neutral-400 text-xs sm:text-sm">
                     Share your thoughts with the NerdTalks community
                 </p>
 
                 {/* Post limit indicator for free users */}
                 {!isMember && (
-                    <div className="mt-4 p-3 bg-neutral-900 rounded-lg">
+                    <div className="mt-2 sm:mt-4 p-1 sm:p-3 bg-neutral-900 rounded-lg">
                         <div className="flex items-center justify-between text-sm">
-                            <span className="text-neutral-300">
+                            <span className="text-xs sm:text-base text-neutral-300">
                                 Posts remaining:
                             </span>
-                            <span className="font-semibold">
+                            <span className="text-xs sm:text-base font-semibold">
                                 {/* {5 - userPosts.length} of 5 */}4
                             </span>
                         </div>
@@ -268,11 +166,11 @@ const AddPost = () => {
             </div>
 
             {/* //?Add post form */}
-            <div className="bg-[#121212] p-6 rounded-2xl border border-neutral-800">
-                <form onSubmit={handleSubmit()} className="space-y-6">
+            <div className="bg-[#121212] p-2 sm:p-6 rounded-2xl border border-neutral-800">
+                <form onSubmit={handleSubmit()} className="space-y-3 sm:space-y-6">
                     {/* //?Author Information */}
-                    <div className="bg-neutral-900 p-4 rounded-xl">
-                        <h3 className="text-sm font-medium mb-3 text-neutral-300">
+                    <div className="bg-neutral-900 p-2 sm:p-4 rounded-xl">
+                        <h3 className="text-xs sm:text-sm font-medium mb-3 text-neutral-300">
                             Author Information
                         </h3>
                         <div className="flex items-center gap-4">
@@ -282,8 +180,8 @@ const AddPost = () => {
                                 className="w-12 h-12 rounded-full object-cover border border-neutral-700"
                             />
                             <div>
-                                <p className="font-medium">{dbUser?.name}</p>
-                                <p className="text-sm text-neutral-400">
+                                <p className="text-sm sm:text-base font-medium">{dbUser?.name}</p>
+                                <p className="text-xs sm:text-sm break-all text-neutral-400">
                                     {dbUser?.email}
                                 </p>
                             </div>
@@ -292,8 +190,8 @@ const AddPost = () => {
 
                     {/* //?Post Title */}
                     <div className="">
-                        <label className="text-sm font-medium mb-2 flex items-center gap-2">
-                            <FileText className="w-4 h-4" />
+                        <label className="text-xs sm:text-sm font-medium mb-2 flex items-center gap-2">
+                            <FileText className="size-4 sm:size-5" />
                             Post Title *
                         </label>
                         <input
@@ -311,11 +209,11 @@ const AddPost = () => {
                                         "Title must not exceed 100 characters",
                                 },
                             })}
-                            className="w-full p-3 bg-neutral-900 border border-neutral-700 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                            className="w-full p-2 sm:p-3 placeholder:text-xs sm:placeholder:text-base text-xs sm:text-base bg-neutral-900 border border-neutral-700 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                             placeholder="Enter your post title..."
                         />
                         {errors.title && (
-                            <p className="text-red-400 text-sm mt-1">
+                            <p className="text-red-400 text-xs sm:text-sm mt-1">
                                 {errors.title.message}
                             </p>
                         )}
@@ -323,7 +221,7 @@ const AddPost = () => {
 
                     {/*//? Post Description */}
                     <div>
-                        <label className="block text-sm font-medium mb-2">
+                        <label className="block text-xs sm:text-sm font-medium mb-2">
                             Post Description *
                         </label>
                         <textarea
@@ -336,11 +234,11 @@ const AddPost = () => {
                                 },
                             })}
                             rows={6}
-                            className="w-full p-3 bg-neutral-900 border border-neutral-700 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors resize-none"
+                            className="w-full p-2 sm:p-3 placeholder:text-xs sm:placeholder:text-base text-xs sm:text-base bg-neutral-900 border border-neutral-700 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors resize-none"
                             placeholder="Write your post content here..."
                         />
                         {errors.description && (
-                            <p className="text-red-400 text-sm mt-1">
+                            <p className="text-red-400 text-xs sm:text-sm mt-1">
                                 {errors.description.message}
                             </p>
                         )}
@@ -348,7 +246,7 @@ const AddPost = () => {
 
                     {/*//? Tag Selection */}
                     <div className="">
-                        <label className="text-sm font-medium mb-2 flex items-center gap-2">
+                        <label className="text-xs sm:text-sm font-medium mb-2 flex items-center gap-2">
                             <Tag className="w-4 h-4" />
                             Category *
                         </label>
@@ -356,24 +254,25 @@ const AddPost = () => {
                             options={tags}
                             menuPlacement="top"
                             styles={selectStyles}
+                            className="text-xs sm:text-sm"
                             placeholder="Select a category..."
                             // value={selectedTag}
                             // onChange={(selected) => setValue("tag", selected)}
                             isSearchable
                         />
                         {errors.tag && (
-                            <p className="text-red-400 text-sm mt-1">
+                            <p className="text-red-400 text-xs sm:text-sm mt-1">
                                 Please select a category
                             </p>
                         )}
                     </div>
 
                     {/* Submit Button */}
-                    <div className="flex gap-4 pt-4">
+                    <div className="flex gap-4 pt-2 sm:pt-4">
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+                            className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white sm:py-3 sm:px-6 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
                         >
                             {isSubmitting ? (
                                 <>
@@ -382,7 +281,7 @@ const AddPost = () => {
                                 </>
                             ) : (
                                 <>
-                                    <PenTool className="w-5 h-5" />
+                                    <PenTool className="size-4 sm:size-5" />
                                     Publish Post
                                 </>
                             )}
@@ -391,7 +290,7 @@ const AddPost = () => {
                         <button
                             type="button"
                             onClick={() => reset()}
-                            className="px-6 py-3 border border-neutral-700 hover:border-neutral-600 text-neutral-300 rounded-xl transition-colors"
+                            className="px-3 py-1 text-sm sm:text-base sm:px-6 sm:py-3 border border-neutral-700 hover:border-neutral-600 text-neutral-300 rounded-xl transition-colors"
                         >
                             Clear
                         </button>

@@ -43,7 +43,7 @@ const UserProfile = () => {
                     <div className="flex gap-5 items-center">
                         {dbUser?.badges?.map((badge, index) => {
                             return (
-                                <>
+                                <div key={index}>
                                     {badge === "bronze" && (
                                         <div className="flex flex-col items-center gap-2">
                                             <img
@@ -68,7 +68,7 @@ const UserProfile = () => {
                                             </span>
                                         </div>
                                     )}
-                                </>
+                                </div>
                             );
                         })}
                     </div>

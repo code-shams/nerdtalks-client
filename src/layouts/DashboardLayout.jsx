@@ -38,7 +38,7 @@ const DashboardLayout = () => {
                     {/* //? Sidebar Toggle button */}
                     <button
                         onClick={handleSidebarToggle}
-                        className="cursor-pointer fixed left-2 sm:left-4 top-4.5 z-50"
+                        className={`cursor-pointer ${sidebarActive?"fixed":"absolute"} sm:fixed left-2 sm:left-4 top-4.5 z-50`}
                     >
                         {sidebarActive ? (
                             <SquareArrowLeft className="size-5 sm:size-7" />

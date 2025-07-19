@@ -30,7 +30,7 @@ const LoginPage = () => {
                         avatar: user.user.photoURL,
                     });
                 } catch (err) {
-                    console.log(err);
+                    // console.log(err);
                 }
                 toast.success("Welcome to nerdtalks!", {
                     position: "bottom-center",
