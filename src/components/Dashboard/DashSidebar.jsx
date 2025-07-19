@@ -1,27 +1,18 @@
 import "./dashboard.css";
-import { useQuery } from "@tanstack/react-query";
-import {
-    ArrowBigLeftDash,
-    FilePlus,
-    List,
-    SquareArrowLeft,
-    SquareArrowRight,
-    User,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { FilePlus, List, User } from "lucide-react";
+import { useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import useAxios from "../../hooks/axios/useAxios";
 import { Bounce, toast } from "react-toastify";
 import useDbUser from "../../hooks/useDbUser";
 
-const DashSidebar = ({ sidebarActive, user, logoutUser }) => {
+const DashSidebar = ({ sidebarActive, logoutUser }) => {
     const navigate = useNavigate();
 
     const { dbUser, isError, error } = useDbUser();
 
     useEffect(() => {
         if (isError) {
-            toast.error(`${err?.response?.data?.message}`, {
+            toast.error(`${"Something went wrong"}`, {
                 position: "bottom-center",
                 autoClose: 3000,
                 theme: "dark",

@@ -1,108 +1,77 @@
-import { CalendarDays, Pencil, Plus, Share2 } from "lucide-react";
-import useAxios from "../../../hooks/axios/useAxios";
-import { use, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { AuthContext } from "../../../contexts/Auth/AuthContext";
+import { Award, CalendarDays, Pencil, Share2 } from "lucide-react";
+import bronze from "../../../assets/icons/bronze.png";
+import gold from "../../../assets/icons/gold.png";
+import useDbUser from "../../../hooks/useDbUser";
+import { format } from "date-fns";
 
 const UserProfile = () => {
-    const {user, loading} = use(AuthContext);
-
-    const { axiosSecure } = useAxios();
-
-    // ?state to store user information from database
-    const [dbUser, setDbUser] = useState({});
-
-    const navigate = useNavigate();
-
-    // ?Fetching user data from db
-    useEffect(() => {
-        axiosSecure(`/users/${user.uid}`)
-            .then((res) => setDbUser(res.data))
-            .catch((err) => {
-                toast.error(`${err?.response?.data?.message}`, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    theme: "dark",
-                    transition: Bounce,
-                    hideProgressBar: true,
-                });
-                logoutUser();
-                navigate("/auth/login");
-            });
-    }, [user]);
+    const { dbUser } = useDbUser();
+    const isoDate = dbUser?.joinedAt;
+    const joinedAt = format(new Date(isoDate), "MMMM yyyy");
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 pri-font">
             {/* Profile Header */}
             <div className="bg-[#121212] p-6 rounded-2xl border border-neutral-800">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-                    <div className="flex items-center gap-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                         <img
-                            src="https://via.placeholder.com/96"
+                            src={dbUser.avatar}
                             alt="User Avatar"
                             className="w-24 h-24 rounded-full object-cover border border-neutral-700"
                         />
                         <div>
-                            <h1 className="text-2xl font-semibold">
-                                Maksudur Rahman
+                            <h1 className="text-lg sm:text-2xl font-semibold">
+                                {dbUser.name}
                             </h1>
-                            <p className="text-sm text-neutral-400">
-                                struggle.endure.contend.code
+                            <p className="text-xs sm:text-sm text-neutral-400">
+                                {dbUser.email}
                             </p>
                         </div>
-                    </div>
-
-                    <div className="flex gap-3">
-                        <button className="p-2 rounded-full bg-neutral-800 hover:bg-neutral-700 transition">
-                            <Share2 className="w-4 h-4" />
-                        </button>
-                        <button className="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white rounded-md flex items-center gap-2">
-                            <Pencil className="w-4 h-4" />
-                            Edit
-                        </button>
                     </div>
                 </div>
 
                 <div className="mt-4 flex items-center text-sm text-neutral-400 gap-2">
                     <CalendarDays className="w-4 h-4" />
-                    Member Since Jul, 2025
-                </div>
-            </div>
-
-            {/* Info Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* About Me */}
-                <div className="bg-[#121212] p-4 rounded-2xl border border-neutral-800">
-                    <h2 className="text-sm font-semibold mb-2">About Me</h2>
-                    <button className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white">
-                        <Plus className="w-4 h-4" />
-                        Add Bio
-                    </button>
-                    <p className="mt-2 text-sm text-neutral-500">
-                        Your bio is empty. Tell the world who you are by writing
-                        a short description about you.
-                    </p>
+                    Joined Since {joinedAt}
                 </div>
 
-                {/* Tech Stack */}
-                <div className="bg-[#121212] p-4 rounded-2xl border border-neutral-800">
-                    <h2 className="text-sm font-semibold mb-2">
-                        My Tech Stack
-                    </h2>
-                    <button className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white">
-                        <Plus className="w-4 h-4" />
-                        Add your skills
-                    </button>
-                </div>
-
-                {/* Available For */}
-                <div className="bg-[#121212] p-4 rounded-2xl border border-neutral-800">
-                    <h2 className="text-sm font-semibold mb-2">
-                        I am available for
-                    </h2>
-                    <button className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white">
-                        <Plus className="w-4 h-4" />
-                        Add Available For
-                    </button>
+                <div className="mt-4 flex flex-col text-sm text-neutral-400 gap-2">
+                    <span className="flex items-center gap-2">
+                        <Award className="w-4 h-4 text-yellow-500" />
+                        Achievements
+                    </span>
+                    <div className="flex gap-5 items-center">
+                        {dbUser?.badges?.map((badge, index) => {
+                            return (
+                                <>
+                                    {badge === "bronze" && (
+                                        <div className="flex flex-col items-center gap-2">
+                                            <img
+                                                src={bronze}
+                                                className="w-20 h-20 sm:w-24 sm:h-24"
+                                                alt=""
+                                            />
+                                            <span className="text-center text-xs sm:text-base w-max">
+                                                Joined nerdtalks
+                                            </span>
+                                        </div>
+                                    )}
+                                    {badge === "gold" && (
+                                        <div className="flex flex-col items-center gap-2">
+                                            <img
+                                                src={gold}
+                                                className="w-20 h-20 sm:w-24 sm:h-24"
+                                                alt=""
+                                            />
+                                            <span className="text-center text-xs sm:text-base w-max">
+                                                Premium Member
+                                            </span>
+                                        </div>
+                                    )}
+                                </>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
 

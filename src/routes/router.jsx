@@ -8,6 +8,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import UserProfile from "../pages/Dashboard/Profile/UserProfile";
 import useAxios from "../hooks/axios/useAxios";
+import Profile from "../pages/Dashboard/Profile/Profile";
 
 const router = createBrowserRouter([
     {
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
                 path: "/dashboard",
                 element: (
                     <PrivateRoute>
-                        <UserProfile></UserProfile>
+                        <Profile></Profile>
                     </PrivateRoute>
                 ),
             },
