@@ -4,13 +4,13 @@ import { AuthContext } from "../../../../contexts/Auth/AuthContext";
 import useDbUser from "../../../../hooks/useDbUser";
 import { Link, useNavigate } from "react-router";
 import { Crown, FileText, Lock, PenTool, Tag } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 const AddPost = () => {
     const { user } = use(AuthContext);
     const { dbUser } = useDbUser();
     const navigate = useNavigate();
-    // const [tags, setTags] = useState([]);
+    const [tag, setTag] = useState("");
     const tags = [
         { value: "anime", label: "Anime" },
         { value: "manga", label: "Manga" },
@@ -20,14 +20,23 @@ const AddPost = () => {
         { value: "games", label: "Games" },
         { value: "movies", label: "Movies" },
     ];
+
+    // ?User specific posts from db
     const [userPosts, setUserPosts] = useState([]);
+
+    // ?Post limit exceed state
     const [isLocked, setIsLocked] = useState(false);
+
+    // ?Form submission state
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // ?Hook form initialization
     const {
         register,
         handleSubmit,
         setValue,
         watch,
+        control,
         formState: { errors },
         reset,
     } = useForm({
@@ -37,10 +46,12 @@ const AddPost = () => {
             tag: null,
         },
     });
+
+    // ?State for Membership status
     const isMember = false;
 
+    //?Custom style for react-select
     const selectStyles = {
-        //?Custom style for react-select
         control: (styles) => ({
             ...styles,
             backgroundColor: "#1a1a1a",
@@ -83,7 +94,6 @@ const AddPost = () => {
             color: "#e5e5e5",
         }),
     };
-
 
     // ?Post Limited Exceeded Scenerio
     if (isLocked) {
@@ -129,13 +139,36 @@ const AddPost = () => {
         );
     }
 
+    //? Handle form submission
+    const onSubmit = async (data) => {
+        if (isLocked) return;
+
+        setIsSubmitting(true);
+
+        try {
+            const postData = {
+                title: data.title,
+                content: data.description,
+                tag: data.tag.value,
+                authorImage: dbUser._id,
+            };
+            console.log(postData);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="space-y-3 sm:space-y-6 pri-font mb-20">
             {/*//? Header */}
             <div className="bg-[#121212] p-3 sm:p-6 rounded-2xl border border-neutral-800">
                 <div className="flex items-center gap-2 sm:gap-3 mb-2">
                     <PenTool className="size-4 sm:size-5 text-blue-500" />
-                    <h1 className="text-lg sm:text-2xl font-semibold">Create New Post</h1>
+                    <h1 className="text-lg sm:text-2xl font-semibold">
+                        Create New Post
+                    </h1>
                 </div>
                 <p className="text-neutral-400 text-xs sm:text-sm">
                     Share your thoughts with the NerdTalks community
@@ -167,7 +200,10 @@ const AddPost = () => {
 
             {/* //?Add post form */}
             <div className="bg-[#121212] p-2 sm:p-6 rounded-2xl border border-neutral-800">
-                <form onSubmit={handleSubmit()} className="space-y-3 sm:space-y-6">
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="space-y-3 sm:space-y-6"
+                >
                     {/* //?Author Information */}
                     <div className="bg-neutral-900 p-2 sm:p-4 rounded-xl">
                         <h3 className="text-xs sm:text-sm font-medium mb-3 text-neutral-300">
@@ -180,7 +216,9 @@ const AddPost = () => {
                                 className="w-12 h-12 rounded-full object-cover border border-neutral-700"
                             />
                             <div>
-                                <p className="text-sm sm:text-base font-medium">{dbUser?.name}</p>
+                                <p className="text-sm sm:text-base font-medium">
+                                    {dbUser?.name}
+                                </p>
                                 <p className="text-xs sm:text-sm break-all text-neutral-400">
                                     {dbUser?.email}
                                 </p>
@@ -228,9 +266,9 @@ const AddPost = () => {
                             {...register("description", {
                                 required: "Post description is required",
                                 minLength: {
-                                    value: 20,
+                                    value: 5,
                                     message:
-                                        "Description must be at least 20 characters",
+                                        "Description must be at least 5 characters",
                                 },
                             })}
                             rows={6}
@@ -250,15 +288,21 @@ const AddPost = () => {
                             <Tag className="w-4 h-4" />
                             Category *
                         </label>
-                        <Select
-                            options={tags}
-                            menuPlacement="top"
-                            styles={selectStyles}
-                            className="text-xs sm:text-sm"
-                            placeholder="Select a category..."
-                            // value={selectedTag}
-                            // onChange={(selected) => setValue("tag", selected)}
-                            isSearchable
+                        <Controller
+                            name="tag"
+                            control={control}
+                            rules={{ required: "Please select a category" }}
+                            render={({ field }) => (
+                                <Select
+                                    {...field}
+                                    options={tags}
+                                    menuPlacement="top"
+                                    styles={selectStyles}
+                                    className="text-xs sm:text-sm"
+                                    placeholder="Select a category..."
+                                    isSearchable
+                                />
+                            )}
                         />
                         {errors.tag && (
                             <p className="text-red-400 text-xs sm:text-sm mt-1">
