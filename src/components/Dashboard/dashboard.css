@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.dashboardRoutes a.active {
+    @apply text-white bg-slate-200/15;
+}

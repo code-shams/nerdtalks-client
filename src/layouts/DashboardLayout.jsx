@@ -29,7 +29,7 @@ const DashboardLayout = () => {
                     </button>
                     <section
                         className={`overflow-hidden transition-all duration-300 ${
-                            sidebarActive ? "w-50 sm:w-70" : "w-0 sm:w-16"
+                            sidebarActive ? "w-50 sm:w-70`" : "w-0 sm:w-16"
                         }`}
                     >
                         <DashSidebar

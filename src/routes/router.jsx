@@ -6,6 +6,7 @@ import SignInPage from "../pages/Auth/SignInPage/SignInPage";
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
+import UserProfile from "../pages/Dashboard/Profile/UserProfile";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -38,7 +39,16 @@ const router = createBrowserRouter([
                 <DashboardLayout></DashboardLayout>
             </PrivateRoute>
         ),
-        children: [{}],
+        children: [
+            {
+                path: "/dashboard",
+                element: (
+                    <PrivateRoute>
+                        <UserProfile></UserProfile>
+                    </PrivateRoute>
+                ),
+            },
+        ],
     },
 ]);
 
