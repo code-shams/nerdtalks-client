@@ -1,16 +1,25 @@
 import Select from "react-select";
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { AuthContext } from "../../../../contexts/Auth/AuthContext";
 import useDbUser from "../../../../hooks/useDbUser";
 import { Link, useNavigate } from "react-router";
 import { Crown, FileText, Lock, PenTool, Tag } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
+import useAxios from "../../../../hooks/axios/useAxios";
+import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../../../shared/Navbar/Loading/Loading";
+import loadImg from "../../../../assets/loading.gif";
 
 const AddPost = () => {
     const { user } = use(AuthContext);
+
     const { dbUser } = useDbUser();
+
     const navigate = useNavigate();
-    const [tag, setTag] = useState("");
+
+    const { axiosSecure } = useAxios();
+
     const tags = [
         { value: "anime", label: "Anime" },
         { value: "manga", label: "Manga" },
@@ -20,9 +29,6 @@ const AddPost = () => {
         { value: "games", label: "Games" },
         { value: "movies", label: "Movies" },
     ];
-
-    // ?User specific posts from db
-    const [userPosts, setUserPosts] = useState([]);
 
     // ?Post limit exceed state
     const [isLocked, setIsLocked] = useState(false);
@@ -48,7 +54,28 @@ const AddPost = () => {
     });
 
     // ?State for Membership status
-    const isMember = false;
+    const isMember = dbUser?.badges?.includes("gold");
+
+    // ?Fetch user post length
+    const {
+        data: posts,
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: ["posts", dbUser._id],
+        queryFn: async () => {
+            const response = await axiosSecure.get(`/posts/user/${dbUser._id}`);
+            return response.data;
+        },
+        enabled: !!dbUser._id, // ensures query runs only if authorId exists
+    });
+
+    // ?Update isLocked state according to users posts length
+    useEffect(() => {
+        if (posts?.length >= 5 && !isMember) {
+            setIsLocked(true);
+        }
+    }, [posts]);
 
     //?Custom style for react-select
     const selectStyles = {
@@ -95,7 +122,82 @@ const AddPost = () => {
         }),
     };
 
-    // ?Post Limited Exceeded Scenerio
+    //? Handle form submission
+    const onSubmit = async (data) => {
+        if (isLocked) return;
+
+        setIsSubmitting(true);
+
+        try {
+            const postData = {
+                title: data.title,
+                content: data.description,
+                tag: data.tag.value,
+                authorName: dbUser.name,
+                authorEmail: dbUser.email,
+                authorImage: dbUser.avatar,
+                authorId: dbUser._id,
+            };
+
+            const response = await axiosSecure.post("/posts", postData);
+
+            if (response.status === 201) {
+                const swalResult = await Swal.fire({
+                    icon: "success",
+                    title: "Post Published! 🎉",
+                    text: "Your post has been successfully published to the community.",
+                    background: "#1a1a1a",
+                    color: "#e5e5e5",
+                    confirmButtonColor: "#2563eb",
+                    confirmButtonText: "View My Posts",
+                    showCancelButton: true,
+                    cancelButtonText: "Stay Here",
+                    cancelButtonColor: "#404040",
+                });
+
+                reset();
+
+                // Check if user wants to go to My Posts
+                if (swalResult.isConfirmed) {
+                    navigate("/dashboard/my-posts");
+                }
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Publication Failed",
+                    text: "Unable to publish your post. Please check your connection and try again.",
+                    background: "#1a1a1a",
+                    color: "#e5e5e5",
+                    confirmButtonColor: "#ef4444",
+                    footer: '<span style="color: #a3a3a3">If the problem persists, please contact support.</span>',
+                });
+            }
+        } catch (err) {
+            // Show error alert
+            Swal.fire({
+                icon: "error",
+                title: "Publication Failed",
+                text: "Unable to publish your post. Please check your connection and try again.",
+                background: "#1a1a1a",
+                color: "#e5e5e5",
+                confirmButtonColor: "#ef4444",
+                footer: '<span style="color: #a3a3a3">If the problem persists, please contact support.</span>',
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    // ?if data is being loader using tanstack
+    if (isLoading) {
+        return (
+            <div className="min-h-screen w-full flex justify-center mt-20">
+                <img src={loadImg} className="w-24 h-24" alt="" />
+            </div>
+        );
+    }
+
+    // ?Post Limit Exceeded Scenerio
     if (isLocked) {
         return (
             <div className="space-y-6 pri-font">
@@ -121,7 +223,7 @@ const AddPost = () => {
                             <span>
                                 Your posts:{" "}
                                 <span className="font-semibold text-white">
-                                    {/* {userPosts.length} */}5
+                                    {posts.length}
                                 </span>
                                 /5
                             </span>
@@ -129,7 +231,7 @@ const AddPost = () => {
                     </div>
 
                     <Link to="/membership">
-                        <button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 mx-auto">
+                        <button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white p-3 sm:px-8 sm:py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 mx-auto">
                             <Crown className="w-5 h-5" />
                             Become a Member
                         </button>
@@ -138,27 +240,6 @@ const AddPost = () => {
             </div>
         );
     }
-
-    //? Handle form submission
-    const onSubmit = async (data) => {
-        if (isLocked) return;
-
-        setIsSubmitting(true);
-
-        try {
-            const postData = {
-                title: data.title,
-                content: data.description,
-                tag: data.tag.value,
-                authorImage: dbUser._id,
-            };
-            console.log(postData);
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
 
     return (
         <div className="space-y-3 sm:space-y-6 pri-font mb-20">
@@ -182,15 +263,15 @@ const AddPost = () => {
                                 Posts remaining:
                             </span>
                             <span className="text-xs sm:text-base font-semibold">
-                                {/* {5 - userPosts.length} of 5 */}4
+                                {5 - posts.length} of 5
                             </span>
                         </div>
                         <div className="w-full bg-neutral-700 rounded-full h-2 mt-2">
                             <div
                                 className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                                 style={{
-                                    width: `${(2 / 5) * 100}%`,
-                                    // width: `${(userPosts.length / 5) * 100}%`,
+                                    // width: `${(2 / 5) * 100}%`,
+                                    width: `${(posts.length / 5) * 100}%`,
                                 }}
                             />
                         </div>
