@@ -7,6 +7,8 @@ import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import UserProfile from "../pages/Dashboard/Profile/UserProfile";
+import useAxios from "../hooks/axios/useAxios";
+
 const router = createBrowserRouter([
     {
         path: "/",

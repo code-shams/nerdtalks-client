@@ -1,4 +1,5 @@
 import "./dashboard.css";
+import { useQuery } from "@tanstack/react-query";
 import {
     ArrowBigLeftDash,
     FilePlus,
@@ -11,32 +12,26 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import useAxios from "../../hooks/axios/useAxios";
 import { Bounce, toast } from "react-toastify";
+import useDbUser from "../../hooks/useDbUser";
 
 const DashSidebar = ({ sidebarActive, user, logoutUser }) => {
-    // ?axios hook for jwt
-    const { axiosSecure } = useAxios();
-
-    // ?state to store user information from database
-    const [dbUser, setDbUser] = useState({});
-
     const navigate = useNavigate();
 
-    // ?Fetching user data from db
+    const { dbUser, isError, error } = useDbUser();
+
     useEffect(() => {
-        axiosSecure(`/users/${user.uid}`)
-            .then((res) => setDbUser(res.data))
-            .catch((err) => {
-                toast.error(`${err?.response?.data?.message}`, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    theme: "dark",
-                    transition: Bounce,
-                    hideProgressBar: true,
-                });
-                logoutUser();
-                navigate("/auth/login");
+        if (isError) {
+            toast.error(`${err?.response?.data?.message}`, {
+                position: "bottom-center",
+                autoClose: 3000,
+                theme: "dark",
+                transition: Bounce,
+                hideProgressBar: true,
             });
-    }, [user]);
+            logoutUser();
+            navigate("/auth/login");
+        }
+    }, [isError, error]);
 
     // ?Determining logged in users role
     const role = dbUser?.role;
