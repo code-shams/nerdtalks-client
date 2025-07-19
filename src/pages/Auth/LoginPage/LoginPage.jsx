@@ -4,9 +4,12 @@ import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { Link, useNavigate } from "react-router";
 import { toast, Bounce } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import useAxios from "../../../hooks/axios/useAxios";
 
 const LoginPage = () => {
     const { loginUser, googleSignIn, setLoading, loading } = use(AuthContext);
+
+    const { axiosDef } = useAxios();
 
     const [showPass, setShowPass] = useState(false);
 
@@ -18,8 +21,18 @@ const LoginPage = () => {
 
     const handleGoogleSignIn = () => {
         googleSignIn()
-            .then(() => {
-                toast.success("Welcome back!", {
+            .then(async (user) => {
+                try {
+                    const res = await axiosDef.post("/users", {
+                    uid: user.user.uid,
+                        name: user.user.displayName,
+                        email: user.user.email,
+                        avatar: user.user.photoURL,
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
+                toast.success("Welcome to nerdtalks!", {
                     position: "bottom-center",
                     autoClose: 3000,
                     theme: "dark",
