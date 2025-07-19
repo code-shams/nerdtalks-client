@@ -7,7 +7,7 @@ import { SquareArrowLeft, SquareArrowRight } from "lucide-react";
 
 const DashboardLayout = () => {
     const { user, loading, logoutUser } = use(AuthContext);
-    const [sidebarActive, setSidebarActive] = useState(false);
+    const [sidebarActive, setSidebarActive] = useState(true);
     const handleSidebarToggle = () => {
         setSidebarActive(!sidebarActive);
     };
@@ -19,7 +19,7 @@ const DashboardLayout = () => {
                 <>
                     <button
                         onClick={handleSidebarToggle}
-                        className="cursor-pointer absolute left-2 top-4.5 z-50"
+                        className="cursor-pointer absolute left-4 top-4.5 z-50"
                     >
                         {sidebarActive ? (
                             <SquareArrowLeft className="size-5 sm:size-7" />
@@ -28,8 +28,8 @@ const DashboardLayout = () => {
                         )}
                     </button>
                     <section
-                        className={`overflow-hidden transition-all duration-300 ${
-                            sidebarActive ? "w-50 sm:w-70`" : "w-0 sm:w-16"
+                        className={`absolute overflow-hidden transition-all duration-300 z-10 bg-black ${
+                            sidebarActive ? "w-50 sm:w-80" : "w-0 sm:w-16"
                         }`}
                     >
                         <DashSidebar
@@ -39,7 +39,7 @@ const DashboardLayout = () => {
                             logoutUser={logoutUser}
                         ></DashSidebar>
                     </section>
-                    <section>
+                    <section className={`contain transition-all duration-300 pt-5 ${sidebarActive?"pl-10":"pl-5 sm:pl-20"}`}>
                         <Outlet></Outlet>
                     </section>
                 </>

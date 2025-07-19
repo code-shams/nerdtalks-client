@@ -2,7 +2,7 @@ import React from 'react'
 
 const UserProfile = () => {
   return (
-    <div>UserProfile</div>
+    <div className='w-full bg-amber-100'>UserProfile</div>
   )
 }
 

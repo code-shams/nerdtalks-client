@@ -102,7 +102,7 @@ const DashSidebar = ({ sidebarActive, user, logoutUser }) => {
                             <NavLink
                                 key={index}
                                 to={route.to}
-                                className="flex gap-4 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-lg font-medium"
+                                className="flex gap-4 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-lg font-medium rounded"
                             >
                                 {route.icon}
                                 {route.name}
@@ -124,7 +124,7 @@ const DashSidebar = ({ sidebarActive, user, logoutUser }) => {
                             <NavLink
                                 key={index}
                                 to={route.to}
-                                className="flex gap-4 pl-0 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-lg font-medium"
+                                className="flex gap-4 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-lg font-medium rounded"
                             >
                                 {route.icon}
                             </NavLink>
