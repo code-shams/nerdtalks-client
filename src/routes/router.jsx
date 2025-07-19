@@ -9,6 +9,8 @@ import PrivateRoute from "./PrivateRoute";
 import UserProfile from "../pages/Dashboard/Profile/UserProfile";
 import useAxios from "../hooks/axios/useAxios";
 import Profile from "../pages/Dashboard/Profile/Profile";
+import AddPost from "../pages/Dashboard/Profile/Posts/AddPost";
+import MyPosts from "../pages/Dashboard/Profile/Posts/MyPosts";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +50,22 @@ const router = createBrowserRouter([
                 element: (
                     <PrivateRoute>
                         <Profile></Profile>
+                    </PrivateRoute>
+                ),
+            },
+            {
+                path: "/dashboard/add-post",
+                element: (
+                    <PrivateRoute>
+                        <AddPost></AddPost>
+                    </PrivateRoute>
+                ),
+            },
+            {
+                path: "/dashboard/my-posts",
+                element: (
+                    <PrivateRoute>
+                        <MyPosts></MyPosts>
                     </PrivateRoute>
                 ),
             },
