@@ -19,7 +19,7 @@ const DashboardLayout = () => {
                 <>
                     <button
                         onClick={handleSidebarToggle}
-                        className="cursor-pointer absolute left-2 top-3.5 z-50"
+                        className="cursor-pointer absolute left-2 top-4.5 z-50"
                     >
                         {sidebarActive ? (
                             <SquareArrowLeft className="size-5 sm:size-7" />
@@ -29,7 +29,7 @@ const DashboardLayout = () => {
                     </button>
                     <section
                         className={`overflow-hidden transition-all duration-300 ${
-                            sidebarActive ? "w-50 sm:w-80" : "w-0 sm:w-16"
+                            sidebarActive ? "w-50 sm:w-70" : "w-0 sm:w-16"
                         }`}
                     >
                         <DashSidebar
