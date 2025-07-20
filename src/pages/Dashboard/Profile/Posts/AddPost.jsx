@@ -11,23 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 import loadImg from "../../../../assets/loading.gif";
 
 const AddPost = () => {
-    const { user } = use(AuthContext);
-
     const { dbUser } = useDbUser();
 
     const navigate = useNavigate();
 
-    const { axiosSecure } = useAxios();
-
-    const tags = [
-        { value: "anime", label: "Anime" },
-        { value: "manga", label: "Manga" },
-        { value: "coding", label: "Coding" },
-        { value: "books", label: "Books" },
-        { value: "tv", label: "TV Shows" },
-        { value: "games", label: "Games" },
-        { value: "movies", label: "Movies" },
-    ];
+    const { axiosSecure, axiosDef } = useAxios();
 
     // ?Post limit exceed state
     const [isLocked, setIsLocked] = useState(false);
@@ -39,8 +27,6 @@ const AddPost = () => {
     const {
         register,
         handleSubmit,
-        setValue,
-        watch,
         control,
         formState: { errors },
         reset,
@@ -58,8 +44,8 @@ const AddPost = () => {
     // ?Fetch user post length
     const {
         data: posts,
-        isLoading,
-        isError,
+        isLoading: postsLoading,
+        isError: postsError,
     } = useQuery({
         queryKey: ["userPosts", dbUser._id],
         queryFn: async () => {
@@ -69,12 +55,56 @@ const AddPost = () => {
         enabled: !!dbUser._id, // ensures query runs only if authorId exists
     });
 
+    // ?Fetch tags
+    const {
+        data: tagsData,
+        isLoading: tagsLoading,
+        isError: tagsError,
+    } = useQuery({
+        queryKey: ["tags"],
+        queryFn: async () => {
+            const response = await axiosDef.get("/tags");
+            return response.data;
+        },
+    });
+
     // ?Update isLocked state according to users posts length
     useEffect(() => {
         if (posts?.length >= 5 && !isMember) {
             setIsLocked(true);
         }
     }, [posts]);
+
+    // ? Handling data fetching error from tanstack
+    useEffect(() => {
+        if (postsError) {
+            Swal.fire({
+                icon: "error",
+                title: "Loading Failed",
+                text: "Failed to get your posts limit. Please try again.",
+                background: "#1a1a1a",
+                color: "#e5e5e5",
+                confirmButtonColor: "#dc2626",
+            }).then(() => {
+                navigate("/dashboard");
+            });
+        } else if (tagsError) {
+            Swal.fire({
+                icon: "error",
+                title: "Loading Failed",
+                text: "Unable to get tags data. Please try again.",
+                background: "#1a1a1a",
+                color: "#e5e5e5",
+                confirmButtonColor: "#dc2626",
+            }).then(() => {
+                navigate("/dashboard");
+            });
+        }
+    }, [postsError, tagsError, navigate]);
+
+    const tags = tagsData?.map((tag) => {
+        return { value: tag?.name.toLowerCase(), label: tag.name };
+    });
 
     //?Custom style for react-select
     const selectStyles = {
@@ -186,9 +216,9 @@ const AddPost = () => {
             setIsSubmitting(false);
         }
     };
-    
+
     // ?if data is being loader using tanstack
-    if (isLoading) {
+    if (postsLoading || tagsLoading) {
         return (
             <div className="min-h-screen w-full flex justify-center mt-20">
                 <img src={loadImg} className="w-24 h-24" alt="" />
@@ -253,7 +283,6 @@ const AddPost = () => {
                 <p className="text-neutral-400 text-xs sm:text-sm">
                     Share your thoughts with the NerdTalks community
                 </p>
-
                 {/* Post limit indicator for free users */}
                 {!isMember && (
                     <div className="mt-2 sm:mt-4 p-1 sm:p-3 bg-neutral-900 rounded-lg">

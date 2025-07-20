@@ -69,14 +69,16 @@ const DashboardLayout = () => {
                             sidebarActive ? "" : ""
                         }`}
                     >
-                        <div className="flex justify-end">
+                        <div
+                            className={`flex justify-end transition-all duration-300 ${
+                                sidebarActive
+                                    ? "translate-x-full"
+                                    : "translate-0"
+                            }`}
+                        >
                             <Link
                                 to="/"
-                                className={`mb-3 flex items-center w-max gap-1 sec-font transition-all duration-300${
-                                    sidebarActive
-                                        ? "translate-x-full"
-                                        : "translate-0"
-                                }`}
+                                className="mb-3 flex items-center w-max gap-1 sec-font"
                             >
                                 <img
                                     className="w-8 h-8 sm:w-12 sm:h-12"

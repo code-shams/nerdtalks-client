@@ -6,19 +6,16 @@ import {
     Trash2,
     TrendingUp,
     TrendingDown,
-    Eye,
     Calendar,
 } from "lucide-react";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
-import { AuthContext } from "../../../../contexts/Auth/AuthContext";
 import useDbUser from "../../../../hooks/useDbUser";
 import { useQuery } from "@tanstack/react-query";
 import loadImg from "../../../../assets/loading.gif";
 import useAxios from "../../../../hooks/axios/useAxios";
 
 const MyPosts = () => {
-    const { user } = use(AuthContext);
     const { dbUser } = useDbUser();
     const { axiosSecure } = useAxios();
     const navigate = useNavigate();
