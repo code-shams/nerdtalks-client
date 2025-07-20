@@ -80,6 +80,15 @@ const MyPosts = () => {
             cancelButtonColor: "#404040",
             confirmButtonText: "Yes, Delete",
             cancelButtonText: "Cancel",
+            customClass: {
+                popup: "!text-xs sm:!text-base",
+                title: "!text-xs sm:!text-xl",
+                htmlContainer: "!text-xs sm:!text-base",
+                confirmButton:
+                    "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                cancelButton:
+                    "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+            },
         });
 
         if (!result.isConfirmed) return;
@@ -87,9 +96,49 @@ const MyPosts = () => {
         try {
             setDeleteLoading(postId);
             const response = await axiosSecure.delete(`/posts/${postId}`);
-            console.log(response);
+
+            if (response?.status === 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Post Deleted",
+                    text: "Your post has been successfully deleted.",
+                    background: "#1a1a1a",
+                    color: "#e5e5e5",
+                    confirmButtonColor: "#2563eb",
+                    timer: 2000,
+                    timerProgressBar: true,
+                    customClass: {
+                        popup: "!text-xs sm:!text-base",
+                        title: "!text-xs sm:!text-xl",
+                        htmlContainer: "!text-xs sm:!text-base",
+                        confirmButton:
+                            "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                        cancelButton:
+                            "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                    },
+                });
+                refetch();
+            }
         } catch (err) {
-            console.log(err);
+            Swal.fire({
+                icon: "error",
+                title: "Delete Failed",
+                text: "Unable to delete the post. Please try again.",
+                background: "#1a1a1a",
+                color: "#e5e5e5",
+                confirmButtonColor: "#dc2626",
+                customClass: {
+                    popup: "!text-xs sm:!text-base",
+                    title: "!text-xs sm:!text-xl",
+                    htmlContainer: "!text-xs sm:!text-base",
+                    confirmButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                    cancelButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                },
+            });
+        } finally {
+            setDeleteLoading(null);
         }
     };
 
