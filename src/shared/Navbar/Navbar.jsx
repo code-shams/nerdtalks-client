@@ -1,5 +1,4 @@
 import React, { use, useState } from "react";
-// import logo from "../../../public/logo2.png";
 import {
     Home,
     Gem,
@@ -73,7 +72,7 @@ const Navbar = () => {
 
             {/* //?Dynamic Login according to user state */}
             {user?.email ? (
-                <div className="group relative"> 
+                <div className="group relative">
                     <img
                         onClick={handleDropdown}
                         src={user?.photoURL}

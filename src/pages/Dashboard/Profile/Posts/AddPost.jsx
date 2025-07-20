@@ -8,7 +8,6 @@ import { Controller, useForm } from "react-hook-form";
 import useAxios from "../../../../hooks/axios/useAxios";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../../../../shared/Navbar/Loading/Loading";
 import loadImg from "../../../../assets/loading.gif";
 
 const AddPost = () => {
@@ -62,7 +61,7 @@ const AddPost = () => {
         isLoading,
         isError,
     } = useQuery({
-        queryKey: ["posts", dbUser._id],
+        queryKey: ["userPosts", dbUser._id],
         queryFn: async () => {
             const response = await axiosSecure.get(`/posts/user/${dbUser._id}`);
             return response.data;
@@ -187,7 +186,7 @@ const AddPost = () => {
             setIsSubmitting(false);
         }
     };
-
+    
     // ?if data is being loader using tanstack
     if (isLoading) {
         return (

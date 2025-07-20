@@ -38,7 +38,9 @@ const DashboardLayout = () => {
                     {/* //? Sidebar Toggle button */}
                     <button
                         onClick={handleSidebarToggle}
-                        className={`cursor-pointer ${sidebarActive?"fixed":"absolute"} sm:fixed left-2 sm:left-4 top-4.5 z-50`}
+                        className={`cursor-pointer ${
+                            sidebarActive ? "fixed" : "absolute"
+                        } sm:fixed left-2 sm:left-4 top-4.5 z-50`}
                     >
                         {sidebarActive ? (
                             <SquareArrowLeft className="size-5 sm:size-7" />
@@ -67,23 +69,26 @@ const DashboardLayout = () => {
                             sidebarActive ? "" : ""
                         }`}
                     >
-                        <Link
-                            to="/"
-                            className={`mb-3 flex items-center justify-end gap-1 sec-font transition-all duration-300 ${
-                                sidebarActive
-                                    ? "translate-x-full"
-                                    : "translate-0"
-                            }`}
-                        >
-                            <img
-                                className="w-8 h-8 sm:w-12 sm:h-12"
-                                src="/logo.png"
-                                alt=""
-                            />
-                            <h1 className="text-lg sm:text-2xl font-bold">
-                                nerdtalks
-                            </h1>
-                        </Link>
+                        <div className="flex justify-end">
+                            <Link
+                                to="/"
+                                className={`mb-3 flex items-center w-max gap-1 sec-font transition-all duration-300${
+                                    sidebarActive
+                                        ? "translate-x-full"
+                                        : "translate-0"
+                                }`}
+                            >
+                                <img
+                                    className="w-8 h-8 sm:w-12 sm:h-12"
+                                    src="/logo.png"
+                                    alt=""
+                                />
+                                <h1 className="text-lg sm:text-2xl font-bold">
+                                    nerdtalks
+                                </h1>
+                            </Link>
+                        </div>
+
                         <Outlet></Outlet>
                     </section>
                 </>
