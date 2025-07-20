@@ -79,6 +79,7 @@ const Homepage = () => {
         sortByPopularity,
         setSortByPopularity,
         postsData,
+        searchTerm
     };
 
     return (

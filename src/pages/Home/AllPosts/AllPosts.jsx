@@ -11,9 +11,6 @@ import {
     ThumbsUp,
 } from "lucide-react";
 import { format } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
-import Swal from "sweetalert2";
-import useAxios from "../../../hooks/axios/useAxios";
 const AllPosts = ({ allPostsProps }) => {
     const {
         postsData,
@@ -21,6 +18,7 @@ const AllPosts = ({ allPostsProps }) => {
         sortByPopularity,
         setCurrentPage,
         currentPage,
+        searchTerm,
     } = allPostsProps;
 
     const postsPerPage = 5;
@@ -61,7 +59,15 @@ const AllPosts = ({ allPostsProps }) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    const { posts = [], total = 0, totalPages = 0 } = postsData || {};
+    let { posts = [], total = 0, totalPages = 0 } = postsData || {};
+
+    useEffect(() => {
+        if (searchTerm) {
+            total = posts.length;
+            totalPages = Math.ceil(total / 5);
+        }
+        console.log(total);
+    }, [searchTerm]);
 
     return (
         <div className="space-y-6 pri-font pb-3">
@@ -79,7 +85,7 @@ const AllPosts = ({ allPostsProps }) => {
                 <div className="flex items-center gap-4 mt-2">
                     <div className="text-sm text-neutral-400">
                         <span className="font-medium text-blue-400">
-                            {total}
+                            {searchTerm ? `${posts.length}` : `${total}`}
                         </span>{" "}
                         posts
                     </div>
@@ -215,10 +221,14 @@ const AllPosts = ({ allPostsProps }) => {
                             Showing{" "}
                             {Math.min(
                                 (currentPage - 1) * postsPerPage + 1,
-                                total
+                                searchTerm ? posts.length : total
                             )}{" "}
-                            - {Math.min(currentPage * postsPerPage, total)} of{" "}
-                            {total} posts
+                            -{" "}
+                            {Math.min(
+                                currentPage * postsPerPage,
+                                searchTerm ? posts.length : total
+                            )}{" "}
+                            of {searchTerm ? posts.length : total} posts
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -234,15 +244,20 @@ const AllPosts = ({ allPostsProps }) => {
 
                             <div className="flex items-center gap-1">
                                 {Array.from(
-                                    { length: totalPages },
+                                    {
+                                        length: searchTerm
+                                            ? Math.ceil(posts.length / 5)
+                                            : totalPages,
+                                    },
                                     (_, i) => i + 1
                                 )
                                     .filter((page) => {
-                                        return (
-                                            Math.abs(page - currentPage) <= 2 ||
+                                        return Math.abs(page - currentPage) <=
+                                            2 ||
                                             page === 1 ||
-                                            page === totalPages
-                                        );
+                                            page === searchTerm
+                                            ? Math.ceil(posts.length / 5)
+                                            : totalPages;
                                     })
                                     .map((page, index, array) => {
                                         const showEllipsis =
