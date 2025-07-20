@@ -80,7 +80,7 @@ const UserProfile = () => {
     }
 
     return (
-        <div className="space-y-6 pri-font">
+        <div className="space-y-6 pri-font mb-10">
             {/* Profile Header */}
             <div className="bg-[#121212] p-6 rounded-2xl border border-neutral-800">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">

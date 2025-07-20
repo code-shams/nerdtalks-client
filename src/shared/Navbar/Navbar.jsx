@@ -11,6 +11,7 @@ import {
 import { Link, NavLink } from "react-router";
 import "./navbar.css";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
+import MobileNav from "../../components/MobileNav";
 const Navbar = () => {
     const [notifications, setNotifications] = useState(0);
 
@@ -29,13 +30,13 @@ const Navbar = () => {
         <nav className="contain sec-font flex items-center justify-between py-3">
             <Link to="/" className="flex items-center gap-1">
                 <img
-                    className="w-8 h-8 md:w-12 md:h-12"
+                    className="w-9 h-9 sm:w-12 sm:h-12"
                     src="/logo.png"
                     alt=""
                 />
-                <h1 className="text-xl md:text-2xl font-bold">nerdtalks</h1>
+                <h1 className="text-2xl font-bold hidden sm:block">nerdtalks</h1>
             </Link>
-            <div className="hidden lg:flex lg:items-center text-lg gap-5 text-slate-200">
+            <div className="hidden md:flex md:items-center text-base gap-3 text-slate-200">
                 <NavLink
                     className="link-hover link-style flex items-center gap-2"
                     to="/"
@@ -69,6 +70,10 @@ const Navbar = () => {
                     )}
                 </div>
             </div>
+
+            <section className="block md:hidden">
+                <MobileNav></MobileNav>
+            </section>
 
             {/* //?Dynamic Login according to user state */}
             {user?.email ? (
