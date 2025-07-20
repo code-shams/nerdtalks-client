@@ -4,9 +4,14 @@ import useAxios from "../../hooks/axios/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../shared/Navbar/Loading/Loading";
 import Swal from "sweetalert2";
+import AllPosts from "./AllPosts/AllPosts";
 
 const Homepage = () => {
     const [searchTerm, setSearchTerm] = useState("");
+
+    const [currentPage, setCurrentPage] = useState(1); //? For AllPosts pagination
+
+    const [sortByPopularity, setSortByPopularity] = useState(false); //?For AllPosts sorting
 
     const { axiosDef } = useAxios();
 
@@ -26,27 +31,29 @@ const Homepage = () => {
 
     // ?Fetch user post length
     const {
-        data: posts,
+        data: postsData,
         isLoading: postsLoading,
         isError: postsError,
         error: errPost,
         refetch,
     } = useQuery({
-        queryKey: ["posts"],
+        queryKey: ["allPosts", currentPage, sortByPopularity, searchTerm],
         queryFn: async () => {
-            const response = await axiosDef.get(
-                `/posts?searchTerm=${searchTerm}`
-            );
+            const response = await axiosDef.get("/posts", {
+                params: {
+                    page: currentPage,
+                    limit: 5,
+                    sortByPopularity,
+                    tag: searchTerm,
+                },
+            });
             return response.data;
         },
     });
 
     useEffect(() => {
-        console.log("before refetch", searchTerm);
         refetch();
-        console.log("AFTER refetch", searchTerm);
-        console.log(posts);
-    }, [posts, searchTerm]);
+    }, [postsData, searchTerm, currentPage, sortByPopularity]);
 
     // ? Handling data fetching error from tanstack
     useEffect(() => {
@@ -65,13 +72,27 @@ const Homepage = () => {
     }, [tagsError, postsError]);
 
     if (postsLoading || tagsLoading) return <Loading></Loading>;
+
+    const allPostsProps = {
+        currentPage,
+        setCurrentPage,
+        sortByPopularity,
+        setSortByPopularity,
+        postsData,
+    };
+
     return (
         <div className="relative">
-            <Banner
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                tagsData={tagsData}
-            ></Banner>
+            <section>
+                <Banner
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    tagsData={tagsData}
+                ></Banner>
+            </section>
+            <section className="contain pt-5">
+                <AllPosts allPostsProps={allPostsProps}></AllPosts>
+            </section>
         </div>
     );
 };

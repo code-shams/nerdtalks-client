@@ -10,20 +10,20 @@ const MobileNav = () => {
                 className="link-hover link-style flex items-center gap-2"
                 to="/"
             >
-                <Home className="size-4 sm:size-6" />
+                <Home className="size-5 sm:size-6" />
             </NavLink>
             <NavLink
                 className="link-hover link-style flex items-center gap-2"
                 to="/membership"
             >
-                <Gem className="size-4 sm:size-6" />
+                <Gem className="size-5 sm:size-6" />
             </NavLink>
             <div className="relative">
                 <NavLink
                     className="link-hover link-style flex items-center gap-2"
                     to="notifications"
                 >
-                    <Bell className="size-4 sm:size-6" />
+                    <Bell className="size-5 sm:size-6" />
                 </NavLink>
 
                 {/* //?Notification Number */}

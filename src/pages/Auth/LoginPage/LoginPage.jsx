@@ -24,7 +24,7 @@ const LoginPage = () => {
             .then(async (user) => {
                 try {
                     const res = await axiosDef.post("/users", {
-                    uid: user.user.uid,
+                        uid: user.user.uid,
                         name: user.user.displayName,
                         email: user.user.email,
                         avatar: user.user.photoURL,
@@ -87,8 +87,11 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="flex items-center justify-center px-4 mt-5">
+        <div className="flex items-center justify-center px-4 mt-5 relative">
             <div className="w-full max-w-md bg-slate-200/10 border border-slate-100/20 rounded-2xl shadow-lg p-4 sm:p-8">
+                <p className="text-center pb-2 font-medium sec-font">
+                    Welcome back!
+                </p>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label

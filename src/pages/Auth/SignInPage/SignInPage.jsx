@@ -130,8 +130,9 @@ const SignInPage = () => {
     };
 
     return (
-        <div className="flex items-center justify-center px-4 mt-5">
+        <div className="flex items-center justify-center px-4 mt-5 relative">
             <div className="w-full max-w-md bg-slate-200/10 border border-slate-100/20 rounded-2xl shadow-lg p-4 sm:p-8">
+            <p className="text-center pb-2 font-medium sec-font">Sign In</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
                         <label
