@@ -4,7 +4,8 @@ import useAxios from "../../hooks/axios/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../shared/Navbar/Loading/Loading";
 import Swal from "sweetalert2";
-import AllPosts from "./AllPosts/AllPosts";
+import AllPosts from "./Posts/AllPosts";
+import AllTags from "./Tags/AllTags";
 
 const Homepage = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -79,7 +80,13 @@ const Homepage = () => {
         sortByPopularity,
         setSortByPopularity,
         postsData,
-        searchTerm
+        searchTerm,
+    };
+
+    const allTagsProps = {
+        searchTerm,
+        setSearchTerm,
+        tagsData,
     };
 
     return (
@@ -90,6 +97,9 @@ const Homepage = () => {
                     setSearchTerm={setSearchTerm}
                     tagsData={tagsData}
                 ></Banner>
+            </section>
+            <section className="pt-5 contain">
+                <AllTags allTagsProps={allTagsProps}></AllTags>
             </section>
             <section className="contain pt-5">
                 <AllPosts allPostsProps={allPostsProps}></AllPosts>

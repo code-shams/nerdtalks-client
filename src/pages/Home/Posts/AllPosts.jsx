@@ -66,7 +66,6 @@ const AllPosts = ({ allPostsProps }) => {
             total = posts.length;
             totalPages = Math.ceil(total / 5);
         }
-        console.log(total);
     }, [searchTerm]);
 
     return (
