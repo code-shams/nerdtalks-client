@@ -12,9 +12,9 @@ import { Link, NavLink } from "react-router";
 import "./navbar.css";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import MobileNav from "../../components/MobileNav";
-const Navbar = () => {
-    const [notifications, setNotifications] = useState(0);
+import Announcements from "../../pages/Home/Announcements/Announcement";
 
+const Navbar = ({ announcements }) => {
     // ?Dropdown Logics
     const [dropdownActive, setDropdownActive] = useState(false);
     const handleDropdown = () => {
@@ -34,7 +34,9 @@ const Navbar = () => {
                     src="/logo.png"
                     alt=""
                 />
-                <h1 className="text-2xl font-bold hidden sm:block">nerdtalks</h1>
+                <h1 className="text-2xl font-bold hidden sm:block">
+                    nerdtalks
+                </h1>
             </Link>
             <div className="hidden md:flex md:items-center text-base gap-3 text-slate-200">
                 <NavLink
@@ -61,9 +63,9 @@ const Navbar = () => {
                     </NavLink>
 
                     {/* //?Notification Number */}
-                    {notifications ? (
+                    {announcements ? (
                         <span className="absolute top-0 left-2 bg-red-500 text-white text-xs font-medium rounded-full px-2 py-0.5 shadow-md">
-                            {notifications < 9 ? notifications : "9+"}
+                            {announcements < 9 ? announcements : "9+"}
                         </span>
                     ) : (
                         ""
@@ -72,7 +74,7 @@ const Navbar = () => {
             </div>
 
             <section className="block md:hidden">
-                <MobileNav></MobileNav>
+                <MobileNav announcements={announcements}></MobileNav>
             </section>
 
             {/* //?Dynamic Login according to user state */}

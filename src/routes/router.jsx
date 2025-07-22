@@ -10,11 +10,16 @@ import Profile from "../pages/Dashboard/Profile/Profile";
 import AddPost from "../pages/Dashboard/Profile/Posts/AddPost";
 import MyPosts from "../pages/Dashboard/Profile/Posts/MyPosts";
 import PostDetails from "../pages/Home/Posts/PostDetails";
+import Loading from "../shared/Navbar/Loading/Loading";
+import axios from "axios";
 
+const serverURL = import.meta.env.VITE_SERVER_URL;
 const router = createBrowserRouter([
     {
         path: "/",
         Component: MainLayout,
+        loader: () => fetch(`${serverURL}/announcements`),
+        HydrateFallback: Loading,
         children: [
             {
                 index: true,

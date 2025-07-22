@@ -53,7 +53,7 @@ const Homepage = () => {
         },
     });
 
-    // ?Fetch user post length
+    // ?Fetch announcements
     const {
         data: announcementsData,
         isLoading: announcementsLoading,

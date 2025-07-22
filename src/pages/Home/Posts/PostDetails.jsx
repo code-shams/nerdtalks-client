@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { use, useEffect, useState } from "react";
 import Loading from "../../../shared/Navbar/Loading/Loading";
 import useAxios from "../../../hooks/axios/useAxios";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import {
     TrendingUp,
     TrendingDown,
@@ -63,7 +63,7 @@ const PostDetails = () => {
     });
     const postData = post[0];
 
-    // ?Fetch user post length
+    // ?Fetch comments
     const {
         data: comments = [],
         isLoading: commentsLoading,
@@ -147,6 +147,7 @@ const PostDetails = () => {
     const voteScore = getVoteScore(postData);
     const timeAgo = formatTimeAgo(postData.createdAt);
 
+    //? Handle Commenting
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
         setIsSubmittingComment(true);
@@ -201,8 +202,34 @@ const PostDetails = () => {
         }
     };
 
+    //? Handle voting
+    const handleVote = async (voteType) => {
+        if (!user) {
+            alert("Please login to vote on posts");
+            return;
+        }
+
+        try {
+            const response = await axiosSecure.patch(
+                `/posts/${postData?._id}/vote`,
+                { type: `${voteType}` }
+            );
+            if (response.status === 200) {
+                postRefetch();
+            }
+        } catch (error) {
+            toast.error("Failed to vote. Please try again.", {
+                position: "bottom-center",
+                autoClose: 3000,
+                theme: "dark",
+                transition: Bounce,
+                hideProgressBar: true,
+            });
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-neutral-900 p-4 sm:p-6 pri-font">
+        <div className="min-h-screen p-4 sm:p-6 pri-font">
             <div className="max-w-4xl mx-auto space-y-6">
                 {/* Post Details */}
                 <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-6 sm:p-8">
@@ -288,7 +315,7 @@ const PostDetails = () => {
 
                             <div className="flex items-center gap-2">
                                 <button
-                                    // onClick={() => handleVote("upvote")}
+                                    onClick={() => handleVote("upvote")}
                                     disabled={!user}
                                     className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
                                         user
@@ -303,7 +330,7 @@ const PostDetails = () => {
                                 </button>
 
                                 <button
-                                    // onClick={() => handleVote("downvote")}
+                                    onClick={() => handleVote("downvote")}
                                     disabled={!user}
                                     className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
                                         user
@@ -415,9 +442,12 @@ const PostDetails = () => {
                             <p className="text-neutral-400 mb-4">
                                 Please log in to join the conversation
                             </p>
-                            <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <Link
+                                to="/auth/login"
+                                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            >
                                 Log In
-                            </button>
+                            </Link>
                         </div>
                     )}
 
