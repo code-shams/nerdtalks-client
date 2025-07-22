@@ -26,6 +26,7 @@ import {
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import useDbUser from "../../../hooks/useDbUser";
 import { Bounce, toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const PostDetails = () => {
     const { user, loading } = use(AuthContext); //?getting user from auth context
@@ -229,19 +230,19 @@ const PostDetails = () => {
     };
 
     return (
-        <div className="min-h-screen p-4 sm:p-6 pri-font">
+        <div className="min-h-screen p-2 sm:p-6 pri-font">
             <div className="max-w-4xl mx-auto space-y-6">
                 {/* Post Details */}
                 <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-6 sm:p-8">
                     {/* Author Info */}
-                    <div className="flex items-center gap-4 mb-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
                         <img
                             src={postData.authorImage}
                             alt={postData.authorName}
                             className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-neutral-700"
                         />
                         <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-white text-lg sm:text-xl">
+                            <h3 className="font-semibold text-white text-sm sm:text-xl">
                                 {postData.authorName}
                             </h3>
                             <div className="flex items-center gap-2 text-sm text-neutral-400 flex-wrap">
@@ -251,7 +252,7 @@ const PostDetails = () => {
                                         {postData.authorEmail}
                                     </span>
                                 </div>
-                                <span>•</span>
+                                {/* <span>•</span> */}
                                 <div className="flex items-center gap-1">
                                     <Clock className="size-3" />
                                     <span>{timeAgo}</span>
@@ -270,19 +271,19 @@ const PostDetails = () => {
                     </div>
 
                     {/* Post Content */}
-                    <div className="mb-6">
-                        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight">
+                    <div className="mb-3 sm:mb-6">
+                        <h1 className="text-base sm:text-3xl font-bold text-white mb-2 sm:mb-4 leading-tight">
                             {postData.title}
                         </h1>
 
-                        <div className="prose prose-neutral prose-invert max-w-none mb-6">
-                            <p className="text-neutral-300 text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
+                        <div className="prose prose-neutral prose-invert max-w-none mb-3 sm:mb-6">
+                            <p className="text-neutral-300 text-sm sm:text-lg leading-relaxed whitespace-pre-wrap">
                                 {postData.content}
                             </p>
                         </div>
 
                         {/* Tag */}
-                        <div className="mb-6">
+                        <div className="sm:mb-6">
                             <div className="flex items-center gap-2">
                                 <TagIcon className="size-4 text-blue-400" />
                                 <span className="inline-flex items-center px-3 py-1 bg-blue-500/20 text-blue-300 text-sm rounded-full border border-blue-500/30">
@@ -293,7 +294,7 @@ const PostDetails = () => {
                     </div>
 
                     {/* Post Actions */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-neutral-800">
+                    <div className="flex flex-wrap items-center justify-between gap-4 pt-2 sm:pt-6 border-t border-neutral-800">
                         {/* Vote Section */}
                         <div className="flex items-center gap-4">
                             <div
@@ -302,11 +303,11 @@ const PostDetails = () => {
                                 )} text-sm font-medium`}
                             >
                                 {voteScore > 0 ? (
-                                    <TrendingUp className="size-5" />
+                                    <TrendingUp className="size-4 sm:size-5" />
                                 ) : voteScore < 0 ? (
-                                    <TrendingDown className="size-5" />
+                                    <TrendingDown className="size-4 sm:size-5" />
                                 ) : (
-                                    <ThumbsUp className="size-5" />
+                                    <ThumbsUp className="size-4 sm:size-5" />
                                 )}
                                 <span className="text-base">
                                     {voteScore} votes
@@ -394,9 +395,9 @@ const PostDetails = () => {
                 </div>
 
                 {/* Comment Section */}
-                <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-6 sm:p-8">
-                    <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                        <MessageCircle className="size-6" />
+                <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-2 sm:p-8">
+                    <h2 className="text-base sm:text-xl font-bold text-white mb-3 sm:mb-6 flex items-center gap-2">
+                        <MessageCircle className="size-5 sm:size-6" />
                         Comments ({comments?.length || 0})
                     </h2>
 
@@ -407,7 +408,7 @@ const PostDetails = () => {
                                 <img
                                     src={user.photoURL || "/default-avatar.png"}
                                     alt={user.displayName}
-                                    className="w-10 h-10 rounded-full object-cover border-2 border-neutral-700 flex-shrink-0"
+                                    className="w-10 h-10 rounded-full object-cover border-2 border-neutral-700 flex-shrink-0 hidden sm:block"
                                 />
                                 <div className="flex-1">
                                     <textarea
@@ -455,27 +456,32 @@ const PostDetails = () => {
                     <div className="space-y-6">
                         {comments && comments.length > 0 ? (
                             comments.map((comment) => (
-                                <div key={comment._id} className="flex gap-4">
-                                    <img
-                                        src={comment.authorImage}
-                                        alt={comment.authorName}
-                                        className="w-10 h-10 rounded-full object-cover border-2 border-neutral-700 flex-shrink-0"
-                                    />
+                                <div
+                                    key={comment._id}
+                                    className="flex gap-2 sm:gap-4"
+                                >
                                     <div className="flex-1">
-                                        <div className="bg-neutral-900 rounded-lg p-4">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <h4 className="font-medium text-white text-sm">
-                                                    {comment.authorName}
-                                                </h4>
-                                                <span className="text-xs text-neutral-500">
-                                                    {formatTimeAgo(
-                                                        comment.createdAt
-                                                    )}
-                                                </span>
+                                        <div className="bg-neutral-900 rounded-lg p-4 flex gap-2">
+                                            <img
+                                                src={comment.authorImage}
+                                                alt={comment.authorName}
+                                                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-neutral-700 flex-shrink-0"
+                                            />
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                                                    <h4 className="font-medium text-white text-sm">
+                                                        {comment.authorName}
+                                                    </h4>
+                                                    <span className="text-xs text-neutral-500">
+                                                        {formatTimeAgo(
+                                                            comment.createdAt
+                                                        )}
+                                                    </span>
+                                                </div>
+                                                <p className="text-neutral-300 text-sm leading-relaxed">
+                                                    {comment.content}
+                                                </p>
                                             </div>
-                                            <p className="text-neutral-300 text-sm leading-relaxed">
-                                                {comment.content}
-                                            </p>
                                         </div>
                                     </div>
                                 </div>

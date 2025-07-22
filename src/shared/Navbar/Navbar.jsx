@@ -38,7 +38,7 @@ const Navbar = ({ announcements }) => {
                     nerdtalks
                 </h1>
             </Link>
-            <div className="hidden md:flex md:items-center text-base gap-3 text-slate-200">
+            <div className="hidden lg:flex md:items-center text-base gap-5 text-slate-200">
                 <NavLink
                     className="link-hover link-style flex items-center gap-2"
                     to="/"
@@ -73,7 +73,7 @@ const Navbar = ({ announcements }) => {
                 </div>
             </div>
 
-            <section className="block md:hidden">
+            <section className="block lg:hidden">
                 <MobileNav announcements={announcements}></MobileNav>
             </section>
 
@@ -117,7 +117,7 @@ const Navbar = ({ announcements }) => {
                     to="/auth/login"
                 >
                     <LogIn className="size-4 sm:size-5" />
-                    Join Us
+                    <span className="hidden sm:block">Join Us</span>
                 </NavLink>
             )}
         </nav>
