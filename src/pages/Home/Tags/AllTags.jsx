@@ -65,7 +65,7 @@ const AllTags = ({ allTagsProps }) => {
     return (
         <div className="space-y-4 pri-font">
             {/* Header */}
-            <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-4 sm:p-6">
+            <div className="">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -102,7 +102,7 @@ const AllTags = ({ allTagsProps }) => {
 
                 {/* Active Filter Display */}
                 {searchTerm && (
-                    <div className="mt-4 pt-4 border-t border-neutral-800">
+                    <div className=" sm:mt-4 pt-4 border-t border-neutral-800">
                         <div className="flex items-center gap-2">
                             <Search className="size-4 text-blue-400" />
                             <span className="text-sm text-neutral-400">
@@ -117,7 +117,7 @@ const AllTags = ({ allTagsProps }) => {
             </div>
 
             {/* All Tags Section */}
-            <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-4 sm:p-6">
+            <div className="">
                 <div className="flex items-center gap-2 mb-4">
                     <Tag className="size-5 text-neutral-400" />
                     <h3 className="text-lg font-semibold text-white">
@@ -148,16 +148,14 @@ const AllTags = ({ allTagsProps }) => {
                             </div>
                         </button>
                     ))}
+                    <p className="text-neutral-400 text-xs sm:text-sm">
+                        <span className="text-blue-400 font-medium">
+                            💡 Tip:
+                        </span>{" "}
+                        Click on any tag to filter posts by category. Click
+                        again to remove the filter.
+                    </p>
                 </div>
-            </div>
-
-            {/* Usage Tips */}
-            <div className="bg-neutral-900/50 rounded-xl border border-neutral-800 p-4 text-center">
-                <p className="text-neutral-400 text-xs sm:text-sm">
-                    <span className="text-blue-400 font-medium">💡 Tip:</span>{" "}
-                    Click on any tag to filter posts by category. Click again to
-                    remove the filter.
-                </p>
             </div>
         </div>
     );

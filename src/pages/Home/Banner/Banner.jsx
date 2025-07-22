@@ -3,7 +3,7 @@ import banner from "../../../assets/banner2.gif";
 import Select from "react-select";
 import { useRef, useState } from "react";
 
-const Banner = ({ setSearchTerm, tagsData }) => {
+const Banner = ({ searchTerm, setSearchTerm, tagsData }) => {
     const bannerStyle = {
         backgroundImage: `url(${banner})`,
         backgroundSize: "cover", // Ensures the image covers the entire area
@@ -111,7 +111,6 @@ const Banner = ({ setSearchTerm, tagsData }) => {
                             placeholder="Search posts by tags? (e.g. coding, tech, anime, sports.....)"
                             isSearchable
                             onChange={(e) => {
-                                setHasSelection(true);
                                 setSearchTerm(e?.value);
                             }}
                         />
@@ -120,13 +119,13 @@ const Banner = ({ setSearchTerm, tagsData }) => {
                             onClick={() => {
                                 selectRef.current.clearValue();
                                 setSearchTerm("");
-                                setHasSelection(false);
                             }}
                             className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/20 p-1 sm:p-1.5 rounded-full"
                         >
-                            {hasSelection ? (
+                            {searchTerm && (
                                 <X className="text-white size-3 sm:size-4"></X>
-                            ) : (
+                            )}
+                            {!searchTerm && (
                                 <Search className="text-white size-3 sm:size-4" />
                             )}
                         </button>

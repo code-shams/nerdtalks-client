@@ -6,6 +6,7 @@ import Loading from "../../shared/Navbar/Loading/Loading";
 import Swal from "sweetalert2";
 import AllPosts from "./Posts/AllPosts";
 import AllTags from "./Tags/AllTags";
+import Announcements from "./Announcements/Announcement";
 
 const Homepage = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -52,13 +53,27 @@ const Homepage = () => {
         },
     });
 
+    // ?Fetch user post length
+    const {
+        data: announcementsData,
+        isLoading: announcementsLoading,
+        isError: announcementsError,
+        error: errAnnouncements,
+    } = useQuery({
+        queryKey: ["announcements"],
+        queryFn: async () => {
+            const response = await axiosDef.get("/announcements");
+            return response.data;
+        },
+    });
+
     useEffect(() => {
         refetch();
     }, [postsData, searchTerm, currentPage, sortByPopularity]);
 
     // ? Handling data fetching error from tanstack
     useEffect(() => {
-        if (tagsError || postsError) {
+        if (tagsError || postsError || announcementsError) {
             Swal.fire({
                 icon: "error",
                 title: "Loading Failed",
@@ -67,12 +82,13 @@ const Homepage = () => {
                 color: "#e5e5e5",
                 confirmButtonColor: "#dc2626",
             }).then(() => {
-                console.log(errTags || errPost);
+                console.log(errTags || errPost || errAnnouncements);
             });
         }
     }, [tagsError, postsError]);
 
-    if (postsLoading || tagsLoading) return <Loading></Loading>;
+    if (postsLoading || tagsLoading || announcementsLoading)
+        return <Loading></Loading>;
 
     const allPostsProps = {
         currentPage,
@@ -98,7 +114,17 @@ const Homepage = () => {
                     tagsData={tagsData}
                 ></Banner>
             </section>
-            <section className="pt-5 contain">
+
+            {/* //?Annoucements */}
+            {announcementsData?.length && (
+                <section className="contain pt-5 sm:pt-10">
+                    <Announcements
+                        announcements={announcementsData}
+                    ></Announcements>
+                </section>
+            )}
+
+            <section className="pt-5 sm:pt-15 contain">
                 <AllTags allTagsProps={allTagsProps}></AllTags>
             </section>
             <section className="contain pt-5">
