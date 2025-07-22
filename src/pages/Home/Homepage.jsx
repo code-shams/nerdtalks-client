@@ -116,12 +116,14 @@ const Homepage = () => {
             </section>
 
             {/* //?Annoucements */}
-            {announcementsData?.length && (
+            {announcementsData?.length ? (
                 <section className="contain pt-5 sm:pt-10">
                     <Announcements
                         announcements={announcementsData}
                     ></Announcements>
                 </section>
+            ) : (
+                ""
             )}
 
             <section className="pt-5 sm:pt-15 contain">

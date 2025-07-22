@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import Profile from "../pages/Dashboard/Profile/Profile";
 import AddPost from "../pages/Dashboard/Profile/Posts/AddPost";
 import MyPosts from "../pages/Dashboard/Profile/Posts/MyPosts";
+import PostDetails from "../pages/Home/Posts/PostDetails";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 Component: Homepage,
+            },
+            {
+                path: "/post/:id",
+                Component: PostDetails,
             },
         ],
     },

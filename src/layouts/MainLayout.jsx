@@ -24,7 +24,7 @@ const MainLayout = () => {
                         <Navbar></Navbar>
                         <hr className="w-full text-slate-100/20 border-b border-slate-100/15" />
                     </header>
-                    <section>
+                    <section className="relative">
                         <Outlet></Outlet>
                     </section>
                 </div>
