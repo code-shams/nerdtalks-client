@@ -47,7 +47,7 @@ const PostDetails = () => {
 
     const [isSubmittingComment, setIsSubmittingComment] = useState(false); //?comment form submitting state
 
-    // ?Fetch user post length
+    // ?Fetch user post
     const {
         data: post = [],
         isLoading: postLoading,
@@ -63,9 +63,24 @@ const PostDetails = () => {
     });
     const postData = post[0];
 
+    // ?Fetch user post length
+    const {
+        data: comments = [],
+        isLoading: commentsLoading,
+        isError: isCommentsError,
+        error: errcomments,
+        refetch: commentsRefetch,
+    } = useQuery({
+        queryKey: ["comments", id],
+        queryFn: async () => {
+            const response = await axiosDef.get(`/comments/${id}`);
+            return response.data;
+        },
+    });
+
     // ? Handling data fetching error from tanstack
     useEffect(() => {
-        if (postError || isUserError) {
+        if (postError || isUserError || isCommentsError) {
             Swal.fire({
                 icon: "error",
                 title: "Loading Failed",
@@ -74,13 +89,13 @@ const PostDetails = () => {
                 color: "#e5e5e5",
                 confirmButtonColor: "#dc2626",
             }).then(() => {
-                console.log(errPost || userError);
+                console.log(errPost || userError || errcomments);
             });
         }
-    }, [postError, isUserError]);
+    }, [postError, isUserError, isCommentsError]);
 
     // ?Handling loading state
-    if (postLoading || loading || userLoading) {
+    if (postLoading || loading || userLoading || commentsLoading) {
         return <Loading></Loading>;
     }
 
@@ -163,6 +178,7 @@ const PostDetails = () => {
                     transition: Bounce,
                     hideProgressBar: true,
                 });
+                commentsRefetch();
             } else {
                 toast.error(`Something went wrong`, {
                     position: "bottom-center",
@@ -307,8 +323,7 @@ const PostDetails = () => {
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-1 text-neutral-400 text-sm">
                                 <MessageCircle className="size-4" />
-                                {/* <span>{comments?.length || 0} comments</span> */}
-                                <span>{0} comments</span>
+                                <span>{comments?.length || 0} comments</span>
                             </div>
 
                             <div className="relative">
@@ -355,8 +370,7 @@ const PostDetails = () => {
                 <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-6 sm:p-8">
                     <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                         <MessageCircle className="size-6" />
-                        Comments {0}
-                        {/* Comments ({comments?.length || 0}) */}
+                        Comments ({comments?.length || 0})
                     </h2>
 
                     {/* Add Comment Form */}
@@ -409,7 +423,7 @@ const PostDetails = () => {
 
                     {/* Comments List */}
                     <div className="space-y-6">
-                        {/* {comments && comments.length > 0 ? (
+                        {comments && comments.length > 0 ? (
                             comments.map((comment) => (
                                 <div key={comment._id} className="flex gap-4">
                                     <img
@@ -436,14 +450,14 @@ const PostDetails = () => {
                                     </div>
                                 </div>
                             ))
-                        ) : ( */}
-                        <div className="text-center py-8">
-                            <MessageCircle className="size-12 text-neutral-600 mx-auto mb-4" />
-                            <p className="text-neutral-400">
-                                No comments yet. Be the first to comment!
-                            </p>
-                        </div>
-                        {/* )} */}
+                        ) : (
+                            <div className="text-center py-8">
+                                <MessageCircle className="size-12 text-neutral-600 mx-auto mb-4" />
+                                <p className="text-neutral-400">
+                                    No comments yet. Be the first to comment!
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
