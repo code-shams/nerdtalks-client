@@ -12,10 +12,10 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
-import useDbUser from "../../../../hooks/useDbUser";
 import { useQuery } from "@tanstack/react-query";
-import loadImg from "../../../../assets/loading.gif";
-import useAxios from "../../../../hooks/axios/useAxios";
+import loadImg from "../../../assets/loading.gif";
+import useAxios from "../../../hooks/axios/useAxios";
+import useDbUser from "../../../hooks/useDbUser";
 
 const MyPosts = () => {
     const { dbUser } = useDbUser();
@@ -54,7 +54,6 @@ const MyPosts = () => {
     const endIndex = Math.min(startIndex + posts.length, totalPosts);
 
     // Reset to first page when posts change (e.g., after deletion)
-    // Remove this useEffect as we're now handling pagination server-side
 
     // Handle data fetching error from tanstack
     useEffect(() => {
@@ -357,7 +356,7 @@ const MyPosts = () => {
                                                 <div className="col-span-3 sm:col-span-2 flex items-center justify-end gap-1 sm:gap-2">
                                                     {/* Comments Button */}
                                                     <Link
-                                                        // to={`/comments/${post._id}`}
+                                                        to={`/dashboard/comments/${post._id}`}
                                                         className="p-1 sm:p-2 text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
                                                         title="View Comments"
                                                     >

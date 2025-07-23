@@ -70,7 +70,6 @@ const AllPosts = ({ allPostsProps }) => {
 
     return (
         <div className="space-y-6 pri-font pb-3">
-            {console.log(postsData)}
             {/* Header with Sort Button */}
             <div className="bg-[#121212] p-4 sm:p-6 rounded-2xl border border-neutral-800">
                 <div>

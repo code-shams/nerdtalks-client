@@ -1,14 +1,15 @@
 import Select from "react-select";
 import React, { use, useEffect, useState } from "react";
-import { AuthContext } from "../../../../contexts/Auth/AuthContext";
-import useDbUser from "../../../../hooks/useDbUser";
+
 import { Link, useNavigate } from "react-router";
 import { Crown, FileText, Lock, PenTool, Tag } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
-import useAxios from "../../../../hooks/axios/useAxios";
+
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
-import loadImg from "../../../../assets/loading.gif";
+import loadImg from "../../../assets/loading.gif";
+import useAxios from "../../../hooks/axios/useAxios";
+import useDbUser from "../../../hooks/useDbUser";
 
 const AddPost = () => {
     const { dbUser } = useDbUser();

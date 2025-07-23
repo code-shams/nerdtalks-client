@@ -230,7 +230,7 @@ const UserProfile = () => {
                                         {/* Actions */}
                                         <div className="flex items-center gap-1">
                                             <Link
-                                                to={`/comments/${post._id}`}
+                                                to={`/dashboard/comments/${post._id}`}
                                                 className="p-1 text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 rounded transition-colors"
                                                 title="View Comments"
                                             >

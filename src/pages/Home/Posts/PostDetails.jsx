@@ -217,9 +217,20 @@ const PostDetails = () => {
             return;
         }
         try {
+            let operation = "";
+            if (upvoteStatus && voteType === "upvote") {
+                operation = "-upvote";
+            } else if (downvoteStatus && voteType === "downvote") {
+                operation = "-downvote";
+            } else {
+                operation = voteType;
+            }
             const response = await axiosSecure.patch(
                 `/posts/${postData._id}/vote`,
-                { type: `${voteType}`, email: `${user.email}` }
+                {
+                    type: `${operation}`,
+                    email: `${user.email}`,
+                }
             );
             if (response.status === 200) {
                 postRefetch();
@@ -473,7 +484,7 @@ const PostDetails = () => {
                     )}
 
                     {/* Comments List */}
-                    <div className="space-y-6">
+                    <div className="space-y-6 w-full">
                         {comments && comments.length > 0 ? (
                             comments.map((comment) => (
                                 <div
@@ -498,7 +509,7 @@ const PostDetails = () => {
                                                         )}
                                                     </span>
                                                 </div>
-                                                <p className="text-neutral-300 text-sm leading-relaxed">
+                                                <p className="text-neutral-300 text-sm leading-relaxed break-all">
                                                     {comment.content}
                                                 </p>
                                             </div>

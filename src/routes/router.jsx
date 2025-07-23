@@ -7,11 +7,12 @@ import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import Profile from "../pages/Dashboard/Profile/Profile";
-import AddPost from "../pages/Dashboard/Profile/Posts/AddPost";
-import MyPosts from "../pages/Dashboard/Profile/Posts/MyPosts";
 import PostDetails from "../pages/Home/Posts/PostDetails";
 import Loading from "../shared/Navbar/Loading/Loading";
 import axios from "axios";
+import AddPost from "../pages/Dashboard/Posts/AddPost";
+import MyPosts from "../pages/Dashboard/Posts/MyPosts";
+import AllComments from "../pages/Dashboard/Comments/AllComments";
 
 const serverURL = import.meta.env.VITE_SERVER_URL;
 const router = createBrowserRouter([
@@ -74,6 +75,14 @@ const router = createBrowserRouter([
                 element: (
                     <PrivateRoute>
                         <MyPosts></MyPosts>
+                    </PrivateRoute>
+                ),
+            },
+            {
+                path: "/dashboard/comments/:postId",
+                element: (
+                    <PrivateRoute>
+                        <AllComments></AllComments>
                     </PrivateRoute>
                 ),
             },
