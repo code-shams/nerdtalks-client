@@ -7,11 +7,18 @@ import {
     Award,
     Zap,
     Shield,
+    CheckCircle,
 } from "lucide-react";
 import CheckoutForm from "./CheckoutForm";
 import PricingCard from "./PricingCard";
+import useDbUser from "../../hooks/useDbUser";
+import { useNavigate } from "react-router";
+import InPageLoading from "../InPageLoading";
+import Swal from "sweetalert2";
 
 const Membership = () => {
+    const { dbUser, isLoading, isError } = useDbUser();
+    const navigate = useNavigate();
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [showCheckout, setShowCheckout] = useState(false);
 
@@ -61,41 +68,68 @@ const Membership = () => {
         setSelectedPlan(null);
     };
 
+    if (isError) {
+        Swal.fire({
+            icon: "error",
+            title: "Loading Failed",
+            text: "Something went wrong! Please try again!",
+            background: "#1a1a1a",
+            color: "#e5e5e5",
+            confirmButtonColor: "#dc2626",
+        }).then(() => {
+            navigate("/");
+        });
+    }
+
+    if (isLoading) return <InPageLoading></InPageLoading>;
+
+    // Already member state
+    // if (!dbUser?.badges?.length > 1) {
+    //     return (
+    //         <div className="max-w-xl w-11/12 mt-10 mx-auto bg-[#121212] rounded-2xl border border-neutral-800 p-8 text-center pri-font">
+    //             <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+    //                 <CheckCircle className="size-8 text-green-400" />
+    //             </div>
+    //             <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
+    //             <p className="text-neutral-400 mb-6">
+    //                 Your premium features are now active.
+    //             </p>
+    //             <button
+    //                 onClick={() => (window.location.href = "/dashboard")}
+    //                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+    //             >
+    //                 Go to Dashboard
+    //             </button>
+    //         </div>
+    //     );
+    // }
+
     if (showCheckout) {
         return (
             <div className="bg-black text-white pri-font">
-                <div className="max-w-4xl mx-auto px-4 py-8">
+                <div className="max-w-xl w-11/12 mx-auto py-8">
                     <button
                         onClick={handleBackToPricing}
                         className="mb-6 text-blue-400 hover:text-blue-300 transition-colors"
                     >
                         ← Back to pricing
                     </button>
-                    {/* <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-6 text-center">
-                        <h2 className="text-xl font-bold mb-4">Checkout</h2>
-                        <p className="text-neutral-400">
-                            Selected:{" "}
-                            <span className="text-blue-400 font-medium">
-                                {plans.find((p) => p.id === selectedPlan)?.name}
-                            </span>
-                        </p>
-                        <p className="text-neutral-400 text-sm mt-2">
-                            CheckoutForm component will be integrated here
-                        </p>
-                    </div> */}
-                    <CheckoutForm></CheckoutForm>
+                    <CheckoutForm
+                        dbUser={dbUser}
+                        selectedPlan={selectedPlan}
+                    ></CheckoutForm>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="bg-black text-white pri-font pb-10">
-            <div className="max-w-5xl mx-auto px-3 py-5">
+        <div className="text-white pri-font pb-10">
+            <div className="max-w-4xl mx-auto w-11/12 sm:pt-5">
                 {/* Header */}
-                <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-6 mb-8">
+                <div className="p-6 sm:mb-5">
                     <div className="text-center">
-                        <div className="flex items-center justify-center gap-2 mb-4">
+                        <div className="flex items-center justify-center gap-2 mb-2">
                             <Crown className="size-6 text-blue-400" />
                             <h1 className="text-2xl font-bold">Membership</h1>
                         </div>
@@ -107,7 +141,7 @@ const Membership = () => {
                 </div>
 
                 {/* Pricing Cards */}
-                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                <div className="grid md:grid-cols-2 gap-10 sm:gap-6 mb-8">
                     {plans.map((plan) => (
                         // <div
                         //     key={plan.id}
@@ -182,6 +216,7 @@ const Membership = () => {
                         //     </button>
                         // </div>
                         <PricingCard
+                            key={plan.id}
                             handleSelectPlan={handleSelectPlan}
                             plan={plan}
                         ></PricingCard>

@@ -5,7 +5,7 @@ import { stripePromise } from "../../../utils/stripe";
 
 const MembershipPage = () => {
     return (
-        <div>
+        <div className="">
             <Elements stripe={stripePromise}>
                 <Membership></Membership>
             </Elements>

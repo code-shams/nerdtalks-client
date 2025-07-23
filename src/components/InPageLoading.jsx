@@ -2,7 +2,7 @@ import React from "react";
 
 const InPageLoading = () => {
     return (
-        <div className="min-h-screen bg-neutral-900 p-4 sm:p-6 contain">
+        <div className="p-4 sm:p-6">
             <div className="max-w-4xl mx-auto">
                 <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-6 sm:p-8">
                     <div className="animate-pulse space-y-6">
