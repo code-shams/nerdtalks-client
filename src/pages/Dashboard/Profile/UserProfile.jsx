@@ -27,7 +27,7 @@ const UserProfile = () => {
     const { axiosSecure } = useAxios();
 
     const {
-        data: posts,
+        data: postsData,
         isLoading,
         isError,
     } = useQuery({
@@ -59,7 +59,7 @@ const UserProfile = () => {
 
     // Calculate vote score
     const getVoteScore = (post) => {
-        return (post.upvote || 0) - (post.downvote || 0);
+        return (post.upvote.length || 0) - (post.downvote.length || 0);
     };
 
     // Get vote score color
@@ -153,7 +153,7 @@ const UserProfile = () => {
                         <FileText className="size-4 sm:size-5 text-blue-500" />
                         Recent Posts
                     </h2>
-                    {posts.length > 0 && (
+                    {postsData?.posts?.length > 0 && (
                         <Link
                             to="/dashboard/my-posts"
                             className="text-xs sm:text-sm text-blue-400 hover:text-blue-300 transition-colors"
@@ -163,7 +163,7 @@ const UserProfile = () => {
                     )}
                 </div>
 
-                {posts.length === 0 ? (
+                {postsData.posts?.length === 0 ? (
                     /* Empty State */
                     <div className="text-center py-6 sm:py-8">
                         <div className="w-12 h-12 sm:w-16 sm:h-16 bg-neutral-900 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -183,7 +183,7 @@ const UserProfile = () => {
                 ) : (
                     /* Posts List */
                     <div className="space-y-3">
-                        {posts.map((post) => {
+                        {postsData.posts?.map((post) => {
                             const voteScore = getVoteScore(post);
                             const postDate = format(
                                 new Date(post.createdAt),

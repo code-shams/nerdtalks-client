@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import {
     FileText,
@@ -7,6 +7,8 @@ import {
     TrendingUp,
     TrendingDown,
     Calendar,
+    ChevronLeft,
+    ChevronRight,
 } from "lucide-react";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
@@ -21,22 +23,40 @@ const MyPosts = () => {
     const navigate = useNavigate();
     const [deleteLoading, setDeleteLoading] = useState(null);
 
-    // ?Fetch user post length
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const postsPerPage = 10; // Following project context: tables show 10 items per page
+
+    // Fetch user posts with server-side pagination
     const {
-        data: posts,
+        data: postsData,
         isLoading,
         isError,
         refetch,
     } = useQuery({
-        queryKey: ["userPosts", dbUser._id],
+        queryKey: ["userPosts", dbUser._id, currentPage],
         queryFn: async () => {
-            const response = await axiosSecure.get(`/posts/user/${dbUser._id}`);
+            const response = await axiosSecure.get(
+                `/posts/user/${dbUser._id}?page=${currentPage}&limit=${postsPerPage}`
+            );
             return response.data;
         },
-        enabled: !!dbUser._id, // ensures query runs only if authorId exists
+        enabled: !!dbUser._id,
+        keepPreviousData: true, // Keep previous data while loading new page
     });
 
-    // ? Handling data fetching error from tanstack
+    // Extract data from API response
+    const posts = postsData?.posts || [];
+    const pagination = postsData?.pagination || {};
+    const totalPosts = pagination.totalPosts || 0;
+    const totalPages = pagination.totalPages || 0;
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = Math.min(startIndex + posts.length, totalPosts);
+
+    // Reset to first page when posts change (e.g., after deletion)
+    // Remove this useEffect as we're now handling pagination server-side
+
+    // Handle data fetching error from tanstack
     useEffect(() => {
         if (isError) {
             Swal.fire({
@@ -52,19 +72,19 @@ const MyPosts = () => {
         }
     }, [isError, navigate]);
 
-    //? Calculate vote score
+    // Calculate vote score
     const getVoteScore = (post) => {
-        return (post.upvote || 0) - (post.downvote || 0);
+        return (post?.upvote.length || 0) - (post?.downvote.length || 0);
     };
 
-    //? Get vote score color
+    // Get vote score color
     const getVoteColor = (score) => {
         if (score > 0) return "text-green-500";
         if (score < 0) return "text-red-500";
         return "text-neutral-400";
     };
 
-    //? Delete post handler
+    // Delete post handler
     const handleDeletePost = async (postId, postTitle) => {
         const result = await Swal.fire({
             title: "Delete Post?",
@@ -139,7 +159,44 @@ const MyPosts = () => {
         }
     };
 
-    // ?if data is being loader using tanstack
+    // Pagination handlers
+    const handlePreviousPage = () => {
+        setCurrentPage((prev) => Math.max(prev - 1, 1));
+    };
+
+    const handleNextPage = () => {
+        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    };
+
+    const handlePageClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    // Generate page numbers for pagination
+    const getPageNumbers = () => {
+        const pages = [];
+        const maxVisiblePages = 5;
+
+        if (totalPages <= maxVisiblePages) {
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(
+                totalPages,
+                startPage + maxVisiblePages - 1
+            );
+
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+        }
+
+        return pages;
+    };
+
+    // Loading state
     if (isLoading) {
         return (
             <div className="min-h-screen w-full flex flex-col items-center mt-20">
@@ -172,7 +229,7 @@ const MyPosts = () => {
                                 Total Posts:
                             </span>
                             <span className="ml-2 font-semibold text-blue-400">
-                                {posts.length}
+                                {totalPosts}
                             </span>
                         </div>
                         <Link
@@ -188,8 +245,8 @@ const MyPosts = () => {
 
             {/* Posts Content */}
             <div className="bg-[#121212] rounded-2xl border border-neutral-800 overflow-hidden mb-10">
-                {posts.length === 0 ? (
-                    /*//* Empty State */
+                {totalPosts === 0 ? (
+                    // Empty State
                     <div className="p-3 sm:p-12 text-center">
                         <div className="w-12 h-12 sm:w-24 sm:h-24 bg-neutral-900 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-6">
                             <FileText className="size-5 sm:size-12 text-neutral-600" />
@@ -210,131 +267,195 @@ const MyPosts = () => {
                         </Link>
                     </div>
                 ) : (
-                    /*//*Post Available state */
-                    <div className="overflow-x-auto">
-                        {/* //?Table header */}
-                        <div className="bg-neutral-900 px-3 py-2 sm:px-6 sm:py-4 border-b border-neutral-800">
-                            <div className="grid grid-cols-12 gap-2 sm:gap-4 text-xs sm:text-sm font-medium text-neutral-300">
-                                <div className="col-span-5 sm:col-span-6">
-                                    Post
-                                </div>
-                                <div className="col-span-2 sm:col-span-2 text-center">
-                                    Votes
-                                </div>
-                                <div className="col-span-2 sm:col-span-2 text-center">
-                                    Date
-                                </div>
-                                <div className="col-span-3 sm:col-span-2 text-right">
-                                    Actions
+                    // Posts Available state
+                    <>
+                        <div className="overflow-x-auto">
+                            {/* Table header */}
+                            <div className="bg-neutral-900 px-3 py-2 sm:px-6 sm:py-4 border-b border-neutral-800">
+                                <div className="grid grid-cols-12 gap-2 sm:gap-4 text-xs sm:text-sm font-medium text-neutral-300">
+                                    <div className="col-span-5 sm:col-span-6">
+                                        Post
+                                    </div>
+                                    <div className="col-span-2 sm:col-span-2 text-center">
+                                        Votes
+                                    </div>
+                                    <div className="col-span-2 sm:col-span-2 text-center">
+                                        Date
+                                    </div>
+                                    <div className="col-span-3 sm:col-span-2 text-right">
+                                        Actions
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* //?Table body */}
-                        <div className="divide-y divide-neutral-800">
-                            {posts.map((post) => {
-                                const voteScore = getVoteScore(post);
-                                const createdDate = format(
-                                    new Date(post.createdAt),
-                                    "MMM dd, yyyy"
-                                );
+                            {/* Table body */}
+                            <div className="divide-y divide-neutral-800">
+                                {posts.map((post) => {
+                                    const voteScore = getVoteScore(post);
+                                    const createdDate = format(
+                                        new Date(post.createdAt),
+                                        "MMM dd, yyyy"
+                                    );
 
-                                return (
-                                    <div
-                                        key={post._id}
-                                        className="px-3 py-2 sm:px-6 sm:py-4 hover:bg-neutral-900/50 transition-colors"
-                                    >
-                                        <div className="grid grid-cols-12 gap-2 sm:gap-4 items-center">
-                                            {/* Post Title & Tag */}
-                                            <div className="col-span-5 sm:col-span-6">
-                                                <div className="space-y-1">
-                                                    <h3 className="font-medium text-white line-clamp-1 hover:text-blue-400 transition-colors text-xs sm:text-base">
-                                                        {post.title}
-                                                    </h3>
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="inline-flex items-center p-1 sm:px-2 sm:py-1 bg-blue-500/20 text-blue-300 text-xs rounded-md">
-                                                            {post.tag}
+                                    return (
+                                        <div
+                                            key={post._id}
+                                            className="px-3 py-2 sm:px-6 sm:py-4 hover:bg-neutral-900/50 transition-colors"
+                                        >
+                                            <div className="grid grid-cols-12 gap-2 sm:gap-4 items-center">
+                                                {/* Post Title & Tag */}
+                                                <div className="col-span-5 sm:col-span-6">
+                                                    <div className="space-y-1">
+                                                        <h3 className="font-medium text-white line-clamp-1 hover:text-blue-400 transition-colors text-xs sm:text-base">
+                                                            {post.title}
+                                                        </h3>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="inline-flex items-center p-1 sm:px-2 sm:py-1 bg-blue-500/20 text-blue-300 text-xs rounded-md">
+                                                                {post.tag}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Vote Score */}
+                                                <div className="col-span-2 sm:col-span-2 text-center">
+                                                    <div
+                                                        className={`flex items-center justify-center gap-1 font-medium ${getVoteColor(
+                                                            voteScore
+                                                        )} text-xs sm:text-sm`}
+                                                    >
+                                                        {voteScore > 0 ? (
+                                                            <TrendingUp className="size-3 sm:size-4" />
+                                                        ) : voteScore < 0 ? (
+                                                            <TrendingDown className="size-3 sm:size-4" />
+                                                        ) : (
+                                                            <div className="size-3 sm:size-4" />
+                                                        )}
+                                                        <span>{voteScore}</span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Created Date */}
+                                                <div className="col-span-2 sm:col-span-2 text-center">
+                                                    <div className="flex items-center justify-center gap-1 text-xs sm:text-sm text-neutral-400">
+                                                        <Calendar className="size-2 sm:size-3 hidden sm:block " />
+                                                        <span className="hidden sm:inline">
+                                                            {createdDate}
+                                                        </span>
+                                                        <span className="sm:hidden">
+                                                            {format(
+                                                                new Date(
+                                                                    post.createdAt
+                                                                ),
+                                                                "MMM dd"
+                                                            )}
                                                         </span>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            {/*//? Vote Score */}
-                                            <div className="col-span-2 sm:col-span-2 text-center">
-                                                <div
-                                                    className={`flex items-center justify-center gap-1 font-medium ${getVoteColor(
-                                                        voteScore
-                                                    )} text-xs sm:text-sm`}
-                                                >
-                                                    {voteScore > 0 ? (
-                                                        <TrendingUp className="size-3 sm:size-4" />
-                                                    ) : voteScore < 0 ? (
-                                                        <TrendingDown className="size-3 sm:size-4" />
-                                                    ) : (
-                                                        <div className="size-3 sm:size-4" />
-                                                    )}
-                                                    <span>{voteScore}</span>
-                                                </div>
-                                            </div>
+                                                {/* Actions */}
+                                                <div className="col-span-3 sm:col-span-2 flex items-center justify-end gap-1 sm:gap-2">
+                                                    {/* Comments Button */}
+                                                    <Link
+                                                        // to={`/comments/${post._id}`}
+                                                        className="p-1 sm:p-2 text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
+                                                        title="View Comments"
+                                                    >
+                                                        <MessageCircle className="size-3 sm:size-4" />
+                                                    </Link>
 
-                                            {/* //? Created Date */}
-                                            <div className="col-span-2 sm:col-span-2 text-center">
-                                                <div className="flex items-center justify-center gap-1 text-xs sm:text-sm text-neutral-400">
-                                                    <Calendar className="size-2 sm:size-3 hidden sm:block " />
-                                                    <span className="hidden sm:inline">
-                                                        {createdDate}
-                                                    </span>
-                                                    <span className="sm:hidden">
-                                                        {format(
-                                                            new Date(
-                                                                post.createdAt
-                                                            ),
-                                                            "MMM dd"
+                                                    {/* Delete Button */}
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDeletePost(
+                                                                post._id,
+                                                                post.title
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            deleteLoading ===
+                                                            post._id
+                                                        }
+                                                        className="p-1 sm:p-2 text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        title="Delete Post"
+                                                    >
+                                                        {deleteLoading ===
+                                                        post._id ? (
+                                                            <div className="size-3 sm:size-4 border-2 border-red-400/20 border-t-red-400 rounded-full animate-spin" />
+                                                        ) : (
+                                                            <Trash2 className="size-3 sm:size-4" />
                                                         )}
-                                                    </span>
+                                                    </button>
                                                 </div>
-                                            </div>
-
-                                            {/* //? Actions */}
-                                            <div className="col-span-3 sm:col-span-2 flex items-center justify-end gap-1 sm:gap-2">
-                                                {/* Comments Button */}
-                                                <Link
-                                                    // to={`/comments/${post._id}`}
-                                                    className="p-1 sm:p-2 text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
-                                                    title="View Comments"
-                                                >
-                                                    <MessageCircle className="size-3 sm:size-4" />
-                                                </Link>
-
-                                                {/* Delete Button */}
-                                                <button
-                                                    onClick={() =>
-                                                        handleDeletePost(
-                                                            post._id,
-                                                            post.title
-                                                        )
-                                                    }
-                                                    disabled={
-                                                        deleteLoading ===
-                                                        post._id
-                                                    }
-                                                    className="p-1 sm:p-2 text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                                    title="Delete Post"
-                                                >
-                                                    {deleteLoading ===
-                                                    post._id ? (
-                                                        <div className="size-3 sm:size-4 border-2 border-red-400/20 border-t-red-400 rounded-full animate-spin" />
-                                                    ) : (
-                                                        <Trash2 className="size-3 sm:size-4" />
-                                                    )}
-                                                </button>
                                             </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
+
+                        {/* Pagination */}
+                        {totalPages > 1 && (
+                            <div className="bg-neutral-900 px-3 py-4 sm:px-6 border-t border-neutral-800">
+                                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                    {/* Page Info */}
+                                    <div className="text-xs sm:text-sm text-neutral-400">
+                                        Showing {startIndex + 1} to {endIndex}{" "}
+                                        of {totalPosts} posts
+                                    </div>
+
+                                    {/* Pagination Controls */}
+                                    <div className="flex items-center gap-1 sm:gap-2">
+                                        {/* Previous Button */}
+                                        <button
+                                            onClick={handlePreviousPage}
+                                            disabled={currentPage === 1}
+                                            className="p-1 sm:p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-neutral-400"
+                                            title="Previous page"
+                                        >
+                                            <ChevronLeft className="size-3 sm:size-4" />
+                                        </button>
+
+                                        {/* Page Numbers */}
+                                        <div className="flex gap-1">
+                                            {getPageNumbers().map(
+                                                (pageNumber) => (
+                                                    <button
+                                                        key={pageNumber}
+                                                        onClick={() =>
+                                                            handlePageClick(
+                                                                pageNumber
+                                                            )
+                                                        }
+                                                        className={`px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm rounded-lg transition-colors ${
+                                                            currentPage ===
+                                                            pageNumber
+                                                                ? "bg-blue-600 text-white"
+                                                                : "text-neutral-400 hover:text-white hover:bg-neutral-800"
+                                                        }`}
+                                                    >
+                                                        {pageNumber}
+                                                    </button>
+                                                )
+                                            )}
+                                        </div>
+
+                                        {/* Next Button */}
+                                        <button
+                                            onClick={handleNextPage}
+                                            disabled={
+                                                currentPage === totalPages
+                                            }
+                                            className="p-1 sm:p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-neutral-400"
+                                            title="Next page"
+                                        >
+                                            <ChevronRight className="size-3 sm:size-4" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>

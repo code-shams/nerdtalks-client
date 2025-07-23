@@ -218,7 +218,7 @@ const PostDetails = () => {
         }
         try {
             const response = await axiosSecure.patch(
-                `/posts/${postData?._id}/vote`,
+                `/posts/${postData._id}/vote`,
                 { type: `${voteType}`, email: `${user.email}` }
             );
             if (response.status === 200) {
@@ -323,7 +323,7 @@ const PostDetails = () => {
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => handleVote("upvote")}
-                                    disabled={!user || upvoteStatus}
+                                    disabled={!user}
                                     className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors
                                         ${
                                             user
@@ -345,7 +345,7 @@ const PostDetails = () => {
 
                                 <button
                                     onClick={() => handleVote("downvote")}
-                                    disabled={!user || downvoteStatus}
+                                    disabled={!user}
                                     className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors 
                                         ${
                                             user
