@@ -1,0 +1,67 @@
+[
+    {
+        "title": "Diamonds are forever - Dustin Poiriers Last Dance at UFC 318 thread.",
+        "content": "Dustin Poiriers fight against Max Holloway was just as everyone thought it would be, Brutal. Both of the contenders threw a fair fight. Compared to the previous two fights, Max Holloway seems significantly better in this match. While Dustin also fought brutally, Max came out as the winner. But none the less Dustines last fight and end to his ufc career was nothing but great.",
+        "tag": "sports",
+        "authorId": { "$oid": "687a2b2eff0adde3966fb483" },
+        "authorName": "Ben Tennison",
+        "authorEmail": "ben@ten.com",
+        "authorImage": "https://i.ibb.co/9kBCGk8p/ben-2.jpg",
+        "createdAt": { "$date": "2025-07-22T10:06:17.450Z" },
+        "upvote": [],
+        "downvote": [],
+        "popularity": 0
+    },
+    {
+        "title": "Refactoring Large Codebases: Strategies That Actually Work",
+        "content": "Feeling overwhelmed by legacy code? Here are proven techniques for incrementally refactoring large React/Node.js codebases without breaking everything.",
+        "tag": "Coding",
+        "authorName": "S. M. Maksudur Rahman",
+        "authorEmail": "code.meshams@gmail.com",
+        "authorId": { "$oid": "687a219b081d6ba1ace3ccaa" },
+        "authorImage": "https://lh3.googleusercontent.com/a/ACg8ocI3gj6XGKycuG7r4FH3fAYDBN7EX8L7sCUq7Nuvz5jclTEjo_U=s96-c",
+        "createdAt": { "$date": "2025-07-20T15:45:00.000Z" },
+        "upvote": [],
+        "downvote": [],
+        "popularity": 11
+    },
+    {
+        "title": "Jon Jones: The Complicated Legacy of a UFC Legend",
+        "content": "Dominant in the Octagon but troubled outside it — Jon Jones remains a polarizing figure. This post looks at his unmatched skillset and tumultuous career.",
+        "tag": "Sports",
+        "authorName": "S. M. Maksudur Rahman",
+        "authorEmail": "code.meshams@gmail.com",
+        "authorId": { "$oid": "687a219b081d6ba1ace3ccaa" },
+        "authorImage": "https://lh3.googleusercontent.com/a/ACg8ocI3gj6XGKycuG7r4FH3fAYDBN7EX8L7sCUq7Nuvz5jclTEjo_U=s96-c",
+        "createdAt": { "$date": "2025-07-20T09:00:00.000Z" },
+        "upvote": [],
+        "downvote": [],
+        "popularity": 1
+    },
+    {
+        "title": "Breaking Bad: The Tragedy of Walter White",
+        "content": "From Mr. Chips to Scarface — Breaking Bad is the ultimate descent story. This post analyzes how pride and desperation turned a good man into Heisenberg.",
+        "tag": "TV",
+        "authorName": "S. M. Maksudur Rahman",
+        "authorEmail": "code.meshams@gmail.com",
+        "authorId": { "$oid": "687a219b081d6ba1ace3ccaa" },
+        "authorImage": "https://lh3.googleusercontent.com/a/ACg8ocI3gj6XGKycuG7r4FH3fAYDBN7EX8L7sCUq7Nuvz5jclTEjo_U=s96-c",
+        "createdAt": { "$date": "2025-07-19T14:15:00.000Z" },
+        "upvote": [],
+        "downvote": [],
+        "popularity": 2
+    },
+    {
+        "title": "The Subtle Brilliance of 'The Catcher in the Rye'",
+        "content": "Holden Caulfield is often misunderstood. Let’s unpack the nuances of this coming-of-age novel and its commentary on adolescent alienation.",
+        "tag": "Books",
+        "authorName": "S. M. Maksudur Rahman",
+        "authorEmail": "code.meshams@gmail.com",
+        "authorId": { "$oid": "687a219b081d6ba1ace3ccaa" },
+        "authorImage": "https://lh3.googleusercontent.com/a/ACg8ocI3gj6XGKycuG7r4FH3fAYDBN7EX8L7sCUq7Nuvz5jclTEjo_U=s96-c",
+        "createdAt": { "$date": "2025-07-19T08:30:00.000Z" },
+        "upvote": [],
+        "downvote": [],
+        "popularity": 1
+    }
+]

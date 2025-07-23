@@ -85,7 +85,7 @@ const Homepage = () => {
                 console.log(errTags || errPost || errAnnouncements);
             });
         }
-    }, [tagsError, postsError]);
+    }, [tagsError, postsError, announcementsError]);
 
     if (postsLoading || tagsLoading || announcementsLoading)
         return <Loading></Loading>;

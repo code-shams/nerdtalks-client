@@ -105,7 +105,7 @@ const PostDetails = () => {
 
     //? Calculate vote score
     const getVoteScore = (post) => {
-        return (post?.upvote || 0) - (post?.downvote || 0);
+        return (post?.upvote.length || 0) - (post?.downvote.length || 0);
     };
 
     //? Get vote score color
@@ -147,7 +147,8 @@ const PostDetails = () => {
 
     const voteScore = getVoteScore(postData);
     const timeAgo = formatTimeAgo(postData.createdAt);
-
+    const upvoteStatus = postData?.upvote.includes(`${user?.email}`);
+    const downvoteStatus = postData?.downvote.includes(`${user?.email}`);
     //? Handle Commenting
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
@@ -206,14 +207,19 @@ const PostDetails = () => {
     //? Handle voting
     const handleVote = async (voteType) => {
         if (!user) {
-            alert("Please login to vote on posts");
+            toast.error("Please login to vote on posts", {
+                position: "bottom-center",
+                autoClose: 3000,
+                theme: "dark",
+                transition: Bounce,
+                hideProgressBar: true,
+            });
             return;
         }
-
         try {
             const response = await axiosSecure.patch(
                 `/posts/${postData?._id}/vote`,
-                { type: `${voteType}` }
+                { type: `${voteType}`, email: `${user.email}` }
             );
             if (response.status === 200) {
                 postRefetch();
@@ -317,31 +323,45 @@ const PostDetails = () => {
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => handleVote("upvote")}
-                                    disabled={!user}
-                                    className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
-                                        user
-                                            ? "hover:bg-green-500/20 text-neutral-400 hover:text-green-400 border border-neutral-700 hover:border-green-500/50"
-                                            : "opacity-50 cursor-not-allowed text-neutral-500 border border-neutral-800"
-                                    }`}
+                                    disabled={!user || upvoteStatus}
+                                    className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors
+                                        ${
+                                            user
+                                                ? "hover:bg-green-500/20  hover:text-green-400 border hover:border-green-500/50"
+                                                : "opacity-50 cursor-not-allowed text-neutral-500 border border-neutral-800"
+                                        }
+                                        ${
+                                            upvoteStatus
+                                                ? "bg-green-500/20 text-green-400 border border-green-500/50"
+                                                : "text-neutral-400 border border-neutral-800"
+                                        }
+                                        `}
                                 >
                                     <ThumbsUp className="size-4" />
                                     <span className="text-sm">
-                                        {postData.upvote || 0}
+                                        {postData?.upvote.length || 0}
                                     </span>
                                 </button>
 
                                 <button
                                     onClick={() => handleVote("downvote")}
-                                    disabled={!user}
-                                    className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
-                                        user
-                                            ? "hover:bg-red-500/20 text-neutral-400 hover:text-red-400 border border-neutral-700 hover:border-red-500/50"
-                                            : "opacity-50 cursor-not-allowed text-neutral-500 border border-neutral-800"
-                                    }`}
+                                    disabled={!user || downvoteStatus}
+                                    className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors 
+                                        ${
+                                            user
+                                                ? "hover:bg-red-500/20 hover:text-red-400 border hover:border-red-500/50"
+                                                : "opacity-50 cursor-not-allowed text-neutral-500 border border-neutral-800"
+                                        }
+                                        ${
+                                            downvoteStatus
+                                                ? "bg-red-500/20 text-red-400 border border-red-500/50"
+                                                : "text-neutral-400 border border-neutral-700"
+                                        }
+                                        `}
                                 >
                                     <ThumbsDown className="size-4" />
                                     <span className="text-sm">
-                                        {postData.downvote || 0}
+                                        {postData?.downvote.length || 0}
                                     </span>
                                 </button>
                             </div>
