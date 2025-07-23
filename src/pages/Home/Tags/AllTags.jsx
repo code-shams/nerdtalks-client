@@ -148,14 +148,12 @@ const AllTags = ({ allTagsProps }) => {
                             </div>
                         </button>
                     ))}
-                    <p className="text-neutral-400 text-xs sm:text-sm">
-                        <span className="text-blue-400 font-medium">
-                            💡 Tip:
-                        </span>{" "}
-                        Click on any tag to filter posts by category. Click
-                        again to remove the filter.
-                    </p>
                 </div>
+                <p className="text-neutral-400 text-xs sm:text-sm mt-3">
+                    <span className="text-blue-400 font-medium">💡 Tip:</span>{" "}
+                    Click on any tag to filter posts by category. Click again to
+                    remove the filter.
+                </p>
             </div>
         </div>
     );

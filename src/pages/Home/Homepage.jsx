@@ -115,6 +115,10 @@ const Homepage = () => {
                 ></Banner>
             </section>
 
+            <section className="pt-5 sm:pt-15 contain">
+                <AllTags allTagsProps={allTagsProps}></AllTags>
+            </section>
+
             {/* //?Annoucements */}
             {announcementsData?.length ? (
                 <section className="contain pt-5 sm:pt-10">
@@ -126,9 +130,6 @@ const Homepage = () => {
                 ""
             )}
 
-            <section className="pt-5 sm:pt-15 contain">
-                <AllTags allTagsProps={allTagsProps}></AllTags>
-            </section>
             <section className="contain pt-5">
                 <AllPosts allPostsProps={allPostsProps}></AllPosts>
             </section>

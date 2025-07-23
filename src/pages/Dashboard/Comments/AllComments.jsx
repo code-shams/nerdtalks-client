@@ -563,7 +563,7 @@ const AllComments = () => {
 
             {/* Full Comment Modal */}
             {showModal && selectedComment && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 break-all text-pretty">
                     <div className="bg-[#121212] border border-neutral-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
                         {/* Modal Header */}
                         <div className="flex items-center justify-between p-4 sm:p-6 border-b border-neutral-800">

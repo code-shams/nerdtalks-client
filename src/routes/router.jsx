@@ -13,6 +13,7 @@ import axios from "axios";
 import AddPost from "../pages/Dashboard/Posts/AddPost";
 import MyPosts from "../pages/Dashboard/Posts/MyPosts";
 import AllComments from "../pages/Dashboard/Comments/AllComments";
+import MembershipPage from "../pages/MembershipPage/MembershipPage";
 
 const serverURL = import.meta.env.VITE_SERVER_URL;
 const router = createBrowserRouter([
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
             {
                 path: "/post/:id",
                 Component: PostDetails,
+            },
+            {
+                path: "/membership",
+                element: (
+                    <PrivateRoute>
+                        <MembershipPage></MembershipPage>
+                    </PrivateRoute>
+                ),
             },
         ],
     },

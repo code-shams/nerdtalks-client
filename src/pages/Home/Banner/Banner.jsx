@@ -13,15 +13,17 @@ const Banner = ({ searchTerm, setSearchTerm, tagsData }) => {
         height: "100%", // Optional: adjust as needed
     };
 
-    const selectRef = useRef();
+    const [tagValue, setTagValue] = useState(
+        "Search posts by tags? (e.g. coding, tech, anime, sports.....)"
+    );
 
-    const [hasSelection, setHasSelection] = useState(false);
+    const selectRef = useRef();
 
     //?Custom style for react-select
     const selectStyles = {
         control: (styles) => ({
             ...styles,
-            backgroundColor: "#1a1a1a",
+            backgroundColor: "#1a1a1a1",
             borderColor: "#404040",
             borderRadius: "12px",
             minHeight: "48px",
@@ -141,12 +143,16 @@ const Banner = ({ searchTerm, setSearchTerm, tagsData }) => {
                                 return;
                             }
                             return (
-                                <span
+                                <button
                                     key={i}
-                                    className="px-3 py-1 rounded-full bg-[#2D2E30] text-white"
+                                    onClick={() => {
+                                        setTagValue(tag?.value);
+                                        setSearchTerm(tag?.value);
+                                    }}
+                                    className="px-3 py-1 rounded-full bg-[#2D2E30] text-white cursor-pointer"
                                 >
                                     {tag?.label}
-                                </span>
+                                </button>
                             );
                         })}
                     </div>
