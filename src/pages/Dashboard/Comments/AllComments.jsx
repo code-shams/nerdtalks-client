@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
+import Select from "react-select";
 import { format } from "date-fns";
 import {
     MessageCircle,
@@ -28,6 +29,7 @@ const AllComments = () => {
     const [selectedFeedback, setSelectedFeedback] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [selectedComment, setSelectedComment] = useState(null);
+    const [reportedStatus, setReportedStatus] = useState([]);
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -136,35 +138,35 @@ const AllComments = () => {
 
         try {
             setReportLoading(commentId);
-            // const response = await axiosSecure.post("/reports/comment", {
-            //     commentId,
-            //     postId,
-            //     reportedBy: dbUser._id,
-            //     reason: feedback,
-            //     commentContent,
-            // });
+            const response = await axiosSecure.post("/reports/comment", {
+                commentId,
+                postId,
+                reportedBy: dbUser._id,
+                reason: feedback,
+                commentContent,
+            });
 
-            // if (response?.status === 200 || response?.status === 201) {
-            //     Swal.fire({
-            //         icon: "success",
-            //         title: "Comment Reported",
-            //         text: "Thank you for reporting. We'll review this comment.",
-            //         background: "#1a1a1a",
-            //         color: "#e5e5e5",
-            //         confirmButtonColor: "#2563eb",
-            //         timer: 2000,
-            //         timerProgressBar: true,
-            //         customClass: {
-            //             popup: "!text-xs sm:!text-base",
-            //             title: "!text-xs sm:!text-xl",
-            //             htmlContainer: "!text-xs sm:!text-base",
-            //             confirmButton:
-            //                 "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
-            //         },
-            //     });
-            //     refetch();
-            // }
-            console.log(object);
+            if (response?.status === 200 || response?.status === 201) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Comment Reported",
+                    text: "Thank you for reporting. We'll review this comment.",
+                    background: "#1a1a1a",
+                    color: "#e5e5e5",
+                    confirmButtonColor: "#2563eb",
+                    timer: 2000,
+                    timerProgressBar: true,
+                    customClass: {
+                        popup: "!text-xs sm:!text-base",
+                        title: "!text-xs sm:!text-xl",
+                        htmlContainer: "!text-xs sm:!text-base",
+                        confirmButton:
+                            "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                    },
+                });
+                const newReports = [...reportedStatus, commentId];
+                setReportedStatus(newReports);
+            }
         } catch (err) {
             Swal.fire({
                 icon: "error",
@@ -334,7 +336,8 @@ const AllComments = () => {
                                     );
                                     const isReportDisabled =
                                         !selectedFeedback[comment._id] ||
-                                        reportLoading === comment._id;
+                                        reportLoading === comment._id ||
+                                        reportedStatus.includes(comment._id);
                                     const needsTruncation =
                                         comment.content.length > 20;
 
