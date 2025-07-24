@@ -21,11 +21,11 @@ const Navbar = ({ announcements }) => {
         setDropdownActive(!dropdownActive);
     };
 
+    const { user, logoutUser } = use(AuthContext);
+
     const handleSignOut = () => {
         logoutUser();
     };
-
-    const { user, logoutUser } = use(AuthContext);
     return (
         <nav className="contain sec-font flex items-center justify-between py-3">
             <Link to="/" className="flex items-center gap-1">

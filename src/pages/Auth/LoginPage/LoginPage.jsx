@@ -32,6 +32,7 @@ const LoginPage = () => {
                 } catch (err) {
                     // console.log(err);
                 }
+                navigate("/");
                 toast.success("Welcome to nerdtalks!", {
                     position: "bottom-center",
                     autoClose: 3000,
@@ -39,7 +40,6 @@ const LoginPage = () => {
                     transition: Bounce,
                     hideProgressBar: true,
                 });
-                navigate("/");
             })
             .catch((error) =>
                 toast.error(`${error.message}`, {
@@ -63,6 +63,7 @@ const LoginPage = () => {
 
         loginUser(email, password)
             .then(() => {
+                navigate("/");
                 toast.success("Welcome back!", {
                     position: "bottom-center",
                     autoClose: 3000,
@@ -70,7 +71,6 @@ const LoginPage = () => {
                     transition: Bounce,
                     hideProgressBar: true,
                 });
-                navigate("/");
             })
             .catch((error) =>
                 toast.error(`${error.message}`, {

@@ -14,6 +14,11 @@ import AddPost from "../pages/Dashboard/Posts/AddPost";
 import MyPosts from "../pages/Dashboard/Posts/MyPosts";
 import AllComments from "../pages/Dashboard/Comments/AllComments";
 import MembershipPage from "../pages/MembershipPage/MembershipPage";
+import AdminRoutes from "./AdminRoutes";
+import AdminProfile from "../pages/Dashboard/Profile/AdminProfile";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import Reports from "../pages/Dashboard/Admin/Reports";
+import PostAnnouncements from "../pages/Dashboard/Admin/PostAnnouncements";
 
 const serverURL = import.meta.env.VITE_SERVER_URL;
 const router = createBrowserRouter([
@@ -93,6 +98,30 @@ const router = createBrowserRouter([
                     <PrivateRoute>
                         <AllComments></AllComments>
                     </PrivateRoute>
+                ),
+            },
+            {
+                path: "/dashboard/manage-users",
+                element: (
+                    <AdminRoutes>
+                        <ManageUsers></ManageUsers>
+                    </AdminRoutes>
+                ),
+            },
+            {
+                path: "/dashboard/reports",
+                element: (
+                    <AdminRoutes>
+                        <Reports></Reports>
+                    </AdminRoutes>
+                ),
+            },
+            {
+                path: "/dashboard/post-announcement",
+                element: (
+                    <AdminRoutes>
+                        <PostAnnouncements></PostAnnouncements>
+                    </AdminRoutes>
                 ),
             },
         ],

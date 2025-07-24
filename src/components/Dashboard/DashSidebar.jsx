@@ -1,5 +1,14 @@
 import "./dashboard.css";
-import { FilePlus, List, User } from "lucide-react";
+import {
+    FilePlus,
+    List,
+    User,
+    Users,
+    MessageCircleWarning,
+    Megaphone,
+    LayoutDashboard,
+} from "lucide-react";
+
 import { useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { Bounce, toast } from "react-toastify";
@@ -43,6 +52,30 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
             name: "My Posts",
             to: "/dashboard/my-posts",
             icon: <List className="size-6" />,
+        },
+    ];
+
+    // ?Admin specific routes
+    const adminLinks = [
+        {
+            name: "Admin Profile",
+            to: "/dashboard",
+            icon: <LayoutDashboard className="size-6" />,
+        },
+        {
+            name: "Manage Users",
+            to: "/dashboard/manage-users",
+            icon: <Users className="size-6" />,
+        },
+        {
+            name: "Reports",
+            to: "/dashboard/reports",
+            icon: <MessageCircleWarning className="size-6" />,
+        },
+        {
+            name: "Post Announcement",
+            to: "/dashboard/post-announcement",
+            icon: <Megaphone className="size-6" />,
         },
     ];
 
@@ -96,6 +129,22 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
                             </NavLink>
                         );
                     })}
+
+                {/* //?Admin based routes */}
+                {role === "admin" &&
+                    adminLinks.map((route, index) => {
+                        return (
+                            <NavLink
+                                key={index}
+                                to={route.to}
+                                end={route.to === "/dashboard"}
+                                className="flex gap-4 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-lg font-medium rounded"
+                            >
+                                {route.icon}
+                                {route.name}
+                            </NavLink>
+                        );
+                    })}
             </div>
 
             {/* //?Sidebar collapsed view */}
@@ -107,6 +156,21 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
                 {/* //?User based routes */}
                 {role === "user" &&
                     userLinks.map((route, index) => {
+                        return (
+                            <NavLink
+                                key={index}
+                                to={route.to}
+                                end={route.to === "/dashboard"}
+                                className="flex gap-4 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-lg font-medium rounded"
+                            >
+                                {route.icon}
+                            </NavLink>
+                        );
+                    })}
+
+                {/* //?Admin based routes */}
+                {role === "admin" &&
+                    adminLinks.map((route, index) => {
                         return (
                             <NavLink
                                 key={index}

@@ -13,6 +13,8 @@ const Banner = ({ searchTerm, setSearchTerm, tagsData }) => {
         height: "100%", // Optional: adjust as needed
     };
 
+    const [tagValue, setTagValue] = useState();
+
     const selectRef = useRef();
 
     //?Custom style for react-select
