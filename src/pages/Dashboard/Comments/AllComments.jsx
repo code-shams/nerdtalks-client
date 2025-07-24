@@ -141,7 +141,11 @@ const AllComments = () => {
             const response = await axiosSecure.post("/reports/comment", {
                 commentId,
                 postId,
-                reportedBy: dbUser._id,
+                reportedBy: {
+                    name: dbUser?.name,
+                    email: dbUser?.email,
+                    userId: dbUser?._id,
+                },
                 reason: feedback,
                 commentContent,
             });

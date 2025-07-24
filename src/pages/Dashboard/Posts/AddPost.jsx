@@ -50,7 +50,9 @@ const AddPost = () => {
     } = useQuery({
         queryKey: ["userPosts", dbUser._id],
         queryFn: async () => {
-            const response = await axiosSecure.get(`/posts/user/${dbUser._id}`);
+            const response = await axiosSecure.get(
+                `/posts/basic-user/${dbUser?._id}`
+            );
             return response.data;
         },
         enabled: !!dbUser._id, // ensures query runs only if authorId exists
