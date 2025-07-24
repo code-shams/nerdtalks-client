@@ -14,7 +14,7 @@ import { Link, NavLink, useNavigate } from "react-router";
 import { Bounce, toast } from "react-toastify";
 import useDbUser from "../../hooks/useDbUser";
 
-const DashSidebar = ({ sidebarActive, logoutUser }) => {
+const DashSidebar = ({ sidebarActive, setSidebarActive, logoutUser }) => {
     const navigate = useNavigate();
 
     const { dbUser, isError, error } = useDbUser();
@@ -41,17 +41,17 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
         {
             name: "My Profile",
             to: "/dashboard",
-            icon: <User className="size-6" />,
+            icon: <User className="size-4 sm:size-6" />,
         },
         {
             name: "Add Post",
             to: "/dashboard/add-post",
-            icon: <FilePlus className="size-6" />,
+            icon: <FilePlus className="size-4 sm:size-6" />,
         },
         {
             name: "My Posts",
             to: "/dashboard/my-posts",
-            icon: <List className="size-6" />,
+            icon: <List className="size-4 sm:size-6" />,
         },
     ];
 
@@ -60,22 +60,22 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
         {
             name: "Admin Profile",
             to: "/dashboard",
-            icon: <LayoutDashboard className="size-6" />,
+            icon: <LayoutDashboard className="size-4 sm:size-6" />,
         },
         {
             name: "Manage Users",
             to: "/dashboard/manage-users",
-            icon: <Users className="size-6" />,
+            icon: <Users className="size-4 sm:size-6" />,
         },
         {
             name: "Reports",
             to: "/dashboard/reports",
-            icon: <MessageCircleWarning className="size-6" />,
+            icon: <MessageCircleWarning className="size-4 sm:size-6" />,
         },
         {
             name: "Post Announcement",
             to: "/dashboard/post-announcement",
-            icon: <Megaphone className="size-6" />,
+            icon: <Megaphone className="size-4 sm:size-6" />,
         },
     ];
 
@@ -110,7 +110,7 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
 
             {/* //?SidebarActive view */}
             <div
-                className={`dashboardRoutes absolute transition-all duration-300 pt-5 p-2 space-y-5 w-full
+                className={`dashboardRoutes absolute transition-all duration-300 pt-5 p-2 space-y-2 sm:space-y-5 w-full
                     ${sidebarActive ? "translate-0" : "-translate-x-100"}
                 `}
             >
@@ -120,6 +120,7 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
                         return (
                             <NavLink
                                 key={index}
+                                onClick={() => setSidebarActive(false)}
                                 to={route.to}
                                 end={route.to === "/dashboard"}
                                 className="flex gap-4 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-lg font-medium rounded"
@@ -135,10 +136,11 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
                     adminLinks.map((route, index) => {
                         return (
                             <NavLink
+                                onClick={() => setSidebarActive(false)}
                                 key={index}
                                 to={route.to}
                                 end={route.to === "/dashboard"}
-                                className="flex gap-4 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-lg font-medium rounded"
+                                className="flex gap-2 sm:gap-4 p-2 text-[#9C9A92] hover:bg-slate-200/15 hover:text-white transition-all duration-300 items-center text-xs sm:text-lg font-medium rounded"
                             >
                                 {route.icon}
                                 {route.name}
@@ -158,6 +160,7 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
                     userLinks.map((route, index) => {
                         return (
                             <NavLink
+                                onClick={() => setSidebarActive(false)}
                                 key={index}
                                 to={route.to}
                                 end={route.to === "/dashboard"}
@@ -173,6 +176,7 @@ const DashSidebar = ({ sidebarActive, logoutUser }) => {
                     adminLinks.map((route, index) => {
                         return (
                             <NavLink
+                                onClick={() => setSidebarActive(false)}
                                 key={index}
                                 to={route.to}
                                 end={route.to === "/dashboard"}

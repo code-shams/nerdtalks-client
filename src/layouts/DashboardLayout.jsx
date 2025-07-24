@@ -58,6 +58,7 @@ const DashboardLayout = () => {
                         <DashSidebar
                             handleSidebarToggle={handleSidebarToggle}
                             sidebarActive={sidebarActive}
+                            setSidebarActive={setSidebarActive}
                             user={user}
                             logoutUser={logoutUser}
                         ></DashSidebar>
