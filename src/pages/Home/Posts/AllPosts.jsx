@@ -11,7 +11,7 @@ import {
     ThumbsUp,
 } from "lucide-react";
 import { format } from "date-fns";
-const AllPosts = ({ allPostsProps }) => {
+const AllPosts = ({ allPostsProps, handlePageChange }) => {
     const {
         postsData,
         setSortByPopularity,
@@ -54,10 +54,10 @@ const AllPosts = ({ allPostsProps }) => {
     };
 
     // Handle pagination
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+    // const handlePageChange = (page) => {
+    //     setCurrentPage(page);
+    //     window.scrollTo({ top: 0, behavior: "smooth" });
+    // };
 
     let { posts = [], total = 0, totalPages = 0 } = postsData || {};
 
@@ -213,7 +213,7 @@ const AllPosts = ({ allPostsProps }) => {
             )}
 
             {/* Pagination */}
-            {totalPages > 1 && (
+            {/* {totalPages > 1 && (
                 <div className="bg-[#121212] rounded-2xl border border-neutral-800 p-4 sm:p-6">
                     <div className="flex items-center justify-center gap-2 sm:justify-between flex-wrap">
                         <div className="text-sm text-neutral-400">
@@ -300,7 +300,7 @@ const AllPosts = ({ allPostsProps }) => {
                         </div>
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

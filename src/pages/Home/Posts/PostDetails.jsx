@@ -155,10 +155,10 @@ const PostDetails = () => {
         setIsSubmittingComment(true);
 
         const postId = postData?._id;
-        const authorId = postData?.authorId;
-        const authorName = postData?.authorName;
-        const authorEmail = postData?.authorEmail;
-        const authorImage = postData?.authorImage;
+        const authorId = dbUser?._id;
+        const authorName = dbUser?.name;
+        const authorEmail = dbUser?.email;
+        const authorImage = dbUser?.avatar;
         const content = newComment;
         const commentData = {
             //? Request body for the api

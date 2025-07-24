@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import AllPosts from "./Posts/AllPosts";
 import AllTags from "./Tags/AllTags";
 import Announcements from "./Announcements/Announcement";
+import InPageLoading from "../../components/InPageLoading";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Homepage = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -87,16 +89,11 @@ const Homepage = () => {
         }
     }, [tagsError, postsError, announcementsError]);
 
-    if (postsLoading || tagsLoading || announcementsLoading)
-        return <Loading></Loading>;
+    if (tagsLoading || announcementsLoading) return <Loading></Loading>;
 
-    const allPostsProps = {
-        currentPage,
-        setCurrentPage,
-        sortByPopularity,
-        setSortByPopularity,
-        postsData,
-        searchTerm,
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     const allTagsProps = {
@@ -105,8 +102,32 @@ const Homepage = () => {
         tagsData,
     };
 
+    const allPostsProps = {
+        currentPage,
+        setCurrentPage,
+        sortByPopularity,
+        setSortByPopularity,
+        postsData,
+        searchTerm,
+        handlePageChange,
+    };
+
+    const postsPerPage = 5;
+
+    let { posts = [], total = 0, totalPages = 0 } = postsData || {};
+
     return (
-        <div className="relative">
+        <div className="relative pb-5">
+            {/* //?Annoucements */}
+            {announcementsData?.length ? (
+                <section className="contain pt-5 sm:py-10">
+                    <Announcements
+                        announcements={announcementsData}
+                    ></Announcements>
+                </section>
+            ) : (
+                ""
+            )}
             <section>
                 <Banner
                     searchTerm={searchTerm}
@@ -115,12 +136,23 @@ const Homepage = () => {
                 ></Banner>
             </section>
 
-            <section className="pt-5 sm:pt-15 contain">
-                <AllTags allTagsProps={allTagsProps}></AllTags>
+            <section className="contain grid grid-cols-1 md:grid-cols-12 gap-5 pt-5 sm:pt-10">
+                {postsLoading ? (
+                    <div className="col-span-8 order-last sm:order-first">
+                        <InPageLoading></InPageLoading>
+                    </div>
+                ) : (
+                    <section className="col-span-8 order-last sm:order-first">
+                        <AllPosts allPostsProps={allPostsProps}></AllPosts>
+                    </section>
+                )}
+                <section className="contain col-span-4 hidden md:block">
+                    <AllTags allTagsProps={allTagsProps}></AllTags>
+                </section>
             </section>
 
             {/* //?Annoucements */}
-            {announcementsData?.length ? (
+            {/* {announcementsData?.length ? (
                 <section className="contain pt-5 sm:pt-10">
                     <Announcements
                         announcements={announcementsData}
@@ -128,11 +160,107 @@ const Homepage = () => {
                 </section>
             ) : (
                 ""
-            )}
+            )} */}
 
-            <section className="contain pt-5">
-                <AllPosts allPostsProps={allPostsProps}></AllPosts>
-            </section>
+            {/* {postsLoading ? (
+                <div className="max-w-4xl mx-auto pt-5">
+                    <InPageLoading></InPageLoading>
+                </div>
+            ) : (
+                <section className="contain pt-5">
+                    <AllPosts allPostsProps={allPostsProps}></AllPosts>
+                </section>
+            )} */}
+
+            {/* //? Paginations */}
+            {totalPages > 1 && (
+                <div className="bg-[#121212] contain rounded-2xl border border-neutral-800 p-4 sm:p-6 mt-5">
+                    <div className="flex items-center justify-center gap-2 sm:justify-between flex-wrap">
+                        <div className="text-sm text-neutral-400">
+                            Showing{" "}
+                            {Math.min(
+                                (currentPage - 1) * postsPerPage + 1,
+                                searchTerm ? posts.length : total
+                            )}{" "}
+                            -{" "}
+                            {Math.min(
+                                currentPage * postsPerPage,
+                                searchTerm ? posts.length : total
+                            )}{" "}
+                            of {searchTerm ? posts.length : total} posts
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() =>
+                                    handlePageChange(currentPage - 1)
+                                }
+                                disabled={currentPage === 1}
+                                className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                <ChevronLeft className="size-4" />
+                            </button>
+
+                            <div className="flex items-center gap-1">
+                                {Array.from(
+                                    {
+                                        length: searchTerm
+                                            ? Math.ceil(posts.length / 5)
+                                            : totalPages,
+                                    },
+                                    (_, i) => i + 1
+                                )
+                                    .filter((page) => {
+                                        return Math.abs(page - currentPage) <=
+                                            2 ||
+                                            page === 1 ||
+                                            page === searchTerm
+                                            ? Math.ceil(posts.length / 5)
+                                            : totalPages;
+                                    })
+                                    .map((page, index, array) => {
+                                        const showEllipsis =
+                                            index > 0 &&
+                                            array[index - 1] !== page - 1;
+                                        return (
+                                            <div
+                                                key={page}
+                                                className="flex items-center gap-1"
+                                            >
+                                                {showEllipsis && (
+                                                    <span className="text-neutral-500 px-1">
+                                                        ...
+                                                    </span>
+                                                )}
+                                                <button
+                                                    onClick={() =>
+                                                        handlePageChange(page)
+                                                    }
+                                                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
+                                                        currentPage === page
+                                                            ? "bg-blue-600 text-white"
+                                                            : "text-neutral-400 hover:text-white hover:bg-neutral-800"
+                                                    }`}
+                                                >
+                                                    {page}
+                                                </button>
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+                            <button
+                                onClick={() =>
+                                    handlePageChange(currentPage + 1)
+                                }
+                                disabled={currentPage === totalPages}
+                                className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                <ChevronRight className="size-4" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

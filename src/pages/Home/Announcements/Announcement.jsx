@@ -40,7 +40,7 @@ const Announcements = ({ announcements }) => {
     };
 
     return (
-        <div className="space-y-6 pri-font pb-3 bg-[#121212] p-4 sm:p-6 border rounded-2xl border-neutral-800">
+        <div className="space-y-6 pri-font pb-3 ">
             {/* Header */}
             <div className="">
                 <div className="flex items-center gap-3 mb-2">
@@ -48,7 +48,7 @@ const Announcements = ({ announcements }) => {
                         <Megaphone className="size-6 text-blue-400" />
                     </div>
                     <div>
-                        <h1 className="text-xl sm:text-2xl font-bold text-white">
+                        <h1 className="text-lg sm:text-2xl font-bold text-white">
                             All Announcements
                         </h1>
                         <p className="text-neutral-400 text-sm sm:text-base">
@@ -64,7 +64,7 @@ const Announcements = ({ announcements }) => {
                 </div>
             </div>
 
-            <div className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {announcements.map((announcement) => {
                     const timeAgo = formatTimeAgo(announcement.createdAt);
 
@@ -136,7 +136,7 @@ const Announcements = ({ announcements }) => {
 
                             {/* Announcement Content */}
                             <div className="mb-1">
-                                <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
+                                <h2 className="text-base sm:text-lg font-bold text-white mb-0.5">
                                     {announcement.title}
                                 </h2>
                                 <p className="text-neutral-300 text-sm sm:text-base leading-relaxed">

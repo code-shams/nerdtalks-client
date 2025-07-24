@@ -54,13 +54,13 @@ const Navbar = ({ announcements }) => {
                     Membership
                 </NavLink>
                 <div className="relative">
-                    <NavLink
-                        className="link-hover link-style flex items-center gap-2"
-                        to="notifications"
+                    <Link
+                        className="link-hover cursor-default link-style flex items-center gap-2"
+                        to="/"
                     >
                         <Bell size={24} />
                         Notifications
-                    </NavLink>
+                    </Link>
 
                     {/* //?Notification Number */}
                     {announcements ? (

@@ -88,18 +88,16 @@ const AllTags = ({ allTagsProps }) => {
                             </span>{" "}
                             tags available
                         </span>
-
-                        {searchTerm && (
-                            <button
-                                onClick={handleClearFilters}
-                                className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-lg transition-colors text-xs"
-                            >
-                                Clear Filter
-                            </button>
-                        )}
                     </div>
                 </div>
-
+                {searchTerm && (
+                    <button
+                        onClick={handleClearFilters}
+                        className="px-3 py-1.5 mb-3 sm:mb-0 mt-3 w-auto sm:w-full  bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-lg transition-colors text-xs"
+                    >
+                        Clear Filter
+                    </button>
+                )}  
                 {/* Active Filter Display */}
                 {searchTerm && (
                     <div className=" sm:mt-4 pt-4 border-t border-neutral-800">
@@ -125,12 +123,12 @@ const AllTags = ({ allTagsProps }) => {
                     </h3>
                 </div>
 
-                <div className="flex flex-wrap gap-2 sm:gap-3">
+                <div className="flex flex-wrap gap-2 md:gap-2">
                     {sortedTags.map((tag, index) => (
                         <button
                             key={tag._id}
                             onClick={() => handleTagClick(tag.name)}
-                            className={`px-2 py-1 sm:px-4 sm:py-2.5 rounded-lg border transition-all duration-200 text-xs sm:text-sm font-medium hover:scale-105 ${
+                            className={`px-2 py-1 md:px-2 md:py-1.5 rounded-lg border transition-all duration-200 text-xs sm:text-sm font-medium hover:scale-105 ${
                                 searchTerm === tag.name
                                     ? "bg-blue-500/30 text-blue-200 border-blue-400 ring-2 ring-blue-500/20"
                                     : getTagColor(index)
@@ -138,7 +136,7 @@ const AllTags = ({ allTagsProps }) => {
                             title={tag.description} // Show description on hover
                         >
                             <div className="flex items-center gap-1 sm:gap-2">
-                                <span className="text-sm">{tag.icon}</span>
+                                <span className="text-sm hidden lg:block">{tag.icon}</span>
                                 <span>#{tag.name}</span>
                                 {tag.usageCount > 0 && (
                                     <span className="text-xs opacity-75 bg-black/20 px-1.5 py-0.5 rounded-full">
