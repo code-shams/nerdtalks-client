@@ -70,6 +70,13 @@ const ManageUsers = () => {
                 background: "#1a1a1a",
                 color: "#e5e5e5",
                 confirmButtonColor: "#dc2626",
+                customClass: {
+                    popup: "!text-xs sm:!text-base",
+                    title: "!text-xs sm:!text-xl",
+                    htmlContainer: "!text-xs sm:!text-base",
+                    confirmButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                },
             });
         }
     }, [isError]);
@@ -121,7 +128,7 @@ const ManageUsers = () => {
 
         try {
             setMakeAdminLoading(userId);
-            
+
             const response = await axiosSecure.patch(
                 `/users/${userId}/make-admin`
             );

@@ -88,6 +88,13 @@ const AddPost = () => {
                 background: "#1a1a1a",
                 color: "#e5e5e5",
                 confirmButtonColor: "#dc2626",
+                customClass: {
+                    popup: "!text-xs sm:!text-base",
+                    title: "!text-xs sm:!text-xl",
+                    htmlContainer: "!text-xs sm:!text-base",
+                    confirmButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                },
             }).then(() => {
                 navigate("/dashboard");
             });
@@ -99,6 +106,13 @@ const AddPost = () => {
                 background: "#1a1a1a",
                 color: "#e5e5e5",
                 confirmButtonColor: "#dc2626",
+                customClass: {
+                    popup: "!text-xs sm:!text-base",
+                    title: "!text-xs sm:!text-xl",
+                    htmlContainer: "!text-xs sm:!text-base",
+                    confirmButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                },
             }).then(() => {
                 navigate("/dashboard");
             });
@@ -185,6 +199,13 @@ const AddPost = () => {
                     showCancelButton: true,
                     cancelButtonText: "Stay Here",
                     cancelButtonColor: "#404040",
+                    customClass: {
+                        popup: "!text-xs sm:!text-base",
+                        title: "!text-xs sm:!text-xl",
+                        htmlContainer: "!text-xs sm:!text-base",
+                        confirmButton:
+                            "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                    },
                 });
 
                 reset();
@@ -201,6 +222,13 @@ const AddPost = () => {
                     background: "#1a1a1a",
                     color: "#e5e5e5",
                     confirmButtonColor: "#ef4444",
+                    customClass: {
+                        popup: "!text-xs sm:!text-base",
+                        title: "!text-xs sm:!text-xl",
+                        htmlContainer: "!text-xs sm:!text-base",
+                        confirmButton:
+                            "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                    },
                     footer: '<span style="color: #a3a3a3">If the problem persists, please contact support.</span>',
                 });
             }
@@ -213,6 +241,13 @@ const AddPost = () => {
                 background: "#1a1a1a",
                 color: "#e5e5e5",
                 confirmButtonColor: "#ef4444",
+                customClass: {
+                    popup: "!text-xs sm:!text-base",
+                    title: "!text-xs sm:!text-xl",
+                    htmlContainer: "!text-xs sm:!text-base",
+                    confirmButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                },
                 footer: '<span style="color: #a3a3a3">If the problem persists, please contact support.</span>',
             });
         } finally {

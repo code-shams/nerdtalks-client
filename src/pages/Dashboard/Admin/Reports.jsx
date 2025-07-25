@@ -74,6 +74,13 @@ const Reports = () => {
                 background: "#1a1a1a",
                 color: "#e5e5e5",
                 confirmButtonColor: "#dc2626",
+                customClass: {
+                    popup: "!text-xs sm:!text-base",
+                    title: "!text-xs sm:!text-xl",
+                    htmlContainer: "!text-xs sm:!text-base",
+                    confirmButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                },
             });
         }
     }, [isError]);
@@ -197,6 +204,13 @@ const Reports = () => {
                     confirmButtonColor: "#2563eb",
                     timer: 2000,
                     timerProgressBar: true,
+                    customClass: {
+                        popup: "!text-xs sm:!text-base",
+                        title: "!text-xs sm:!text-xl",
+                        htmlContainer: "!text-xs sm:!text-base",
+                        confirmButton:
+                            "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                    },
                 });
                 refetch();
             }
@@ -208,6 +222,13 @@ const Reports = () => {
                 background: "#1a1a1a",
                 color: "#e5e5e5",
                 confirmButtonColor: "#dc2626",
+                customClass: {
+                    popup: "!text-xs sm:!text-base",
+                    title: "!text-xs sm:!text-xl",
+                    htmlContainer: "!text-xs sm:!text-base",
+                    confirmButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                },
             });
         } finally {
             setActionLoading(null);
@@ -227,6 +248,13 @@ const Reports = () => {
             cancelButtonColor: "#404040",
             confirmButtonText: "Yes, Dismiss",
             cancelButtonText: "Cancel",
+            customClass: {
+                popup: "!text-xs sm:!text-base",
+                title: "!text-xs sm:!text-xl",
+                htmlContainer: "!text-xs sm:!text-base",
+                confirmButton:
+                    "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+            },
         });
 
         if (!result.isConfirmed) return;
@@ -250,6 +278,13 @@ const Reports = () => {
                     confirmButtonColor: "#2563eb",
                     timer: 2000,
                     timerProgressBar: true,
+                    customClass: {
+                        popup: "!text-xs sm:!text-base",
+                        title: "!text-xs sm:!text-xl",
+                        htmlContainer: "!text-xs sm:!text-base",
+                        confirmButton:
+                            "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                    },
                 });
                 refetch();
             }
@@ -261,6 +296,13 @@ const Reports = () => {
                 background: "#1a1a1a",
                 color: "#e5e5e5",
                 confirmButtonColor: "#dc2626",
+                customClass: {
+                    popup: "!text-xs sm:!text-base",
+                    title: "!text-xs sm:!text-xl",
+                    htmlContainer: "!text-xs sm:!text-base",
+                    confirmButton:
+                        "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+                },
             });
         } finally {
             setActionLoading(null);
@@ -312,6 +354,13 @@ const Reports = () => {
     //                 confirmButtonColor: "#2563eb",
     //                 timer: 2000,
     //                 timerProgressBar: true,
+    //                  customClass: {
+    //                     popup: "!text-xs sm:!text-base",
+    //                     title: "!text-xs sm:!text-xl",
+    //                     htmlContainer: "!text-xs sm:!text-base",
+    //                     confirmButton:
+    //                         "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+    //                 },
     //             });
     //             refetch();
     //         }
@@ -323,6 +372,13 @@ const Reports = () => {
     //             background: "#1a1a1a",
     //             color: "#e5e5e5",
     //             confirmButtonColor: "#dc2626",
+    // customClass: {
+    //     popup: "!text-xs sm:!text-base",
+    //     title: "!text-xs sm:!text-xl",
+    //     htmlContainer: "!text-xs sm:!text-base",
+    //     confirmButton:
+    //         "!text-xs sm:!text-base !px-3 !py-1.5 sm:!px-4 sm:!py-2",
+    // },
     //         });
     //     } finally {
     //         setActionLoading(null);
