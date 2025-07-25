@@ -323,12 +323,12 @@ const AdminProfile = () => {
                                 cx="50%"
                                 cy="50%"
                                 labelLine={false}
-                                outerRadius={window.innerWidth < 640 ? 80 : 100}
+                                outerRadius={window.innerWidth < 640 ? 70 : 120}
                                 fill="#8884d8"
                                 dataKey="value"
                                 label={({ name, value, percent }) =>
                                     window.innerWidth < 640
-                                        ? `${name}: ${value}`
+                                        ? `${name}`
                                         : `${name}: ${value} (${(
                                               percent * 100
                                           ).toFixed(0)}%)`
