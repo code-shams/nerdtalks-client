@@ -19,40 +19,43 @@ const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    const handleGoogleSignIn = () => {
-        googleSignIn()
-            .then(async (user) => {
-                try {
-                    const res = await axiosDef.post("/users", {
-                        uid: user.user.uid,
-                        name: user.user.displayName,
-                        email: user.user.email,
-                        avatar: user.user.photoURL,
-                    });
-                } catch (err) {
-                    // console.log(err);
-                }
-                navigate("/");
-                toast.success("Welcome to nerdtalks!", {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    theme: "dark",
-                    transition: Bounce,
-                    hideProgressBar: true,
-                });
-            })
-            .catch((error) =>
-                toast.error(`${error.message}`, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    theme: "dark",
-                    transition: Bounce,
-                    hideProgressBar: true,
-                })
-            )
-            .finally(() => {
-                setLoading(false);
+    const handleGoogleSignIn = async () => {
+        setLoading(true);
+
+        try {
+            const result = await googleSignIn();
+            const userData = result?.user;
+
+            if (!userData) throw new Error("Google sign-in failed.");
+
+            // Save to DB
+            await axiosDef.post("/users", {
+                uid: userData.uid,
+                name: userData.displayName,
+                email: userData.email,
+                avatar: userData.photoURL,
             });
+
+            toast.success("Welcome to NerdTalks!", {
+                position: "bottom-center",
+                autoClose: 3000,
+                theme: "dark",
+                transition: Bounce,
+                hideProgressBar: true,
+            });
+
+            navigate("/");
+        } catch (error) {
+            toast.error(error.message || "Something went wrong!", {
+                position: "bottom-center",
+                autoClose: 3000,
+                theme: "dark",
+                transition: Bounce,
+                hideProgressBar: true,
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSubmit = (e) => {

@@ -30,41 +30,44 @@ const SignInPage = () => {
         setShowPass(!showPass);
     };
 
-    const handleGoogleSignIn = () => {
-        googleSignIn()
-            .then(async (user) => {
-                try {
-                    const res = await axiosDef.post("/users", {
-                        uid: user.user.uid,
-                        name: user.user.displayName,
-                        email: user.user.email,
-                        avatar: user.user.photoURL,
-                    });
-                    console.log(res.data);
-                } catch (err) {
-                    console.log(err);
-                }
-                toast.success("Welcome to nerdtalks!", {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    theme: "dark",
-                    transition: Bounce,
-                    hideProgressBar: true,
-                });
-                navigate("/");
-            })
-            .catch((error) =>
-                toast.error(`${error.message}`, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    theme: "dark",
-                    transition: Bounce,
-                    hideProgressBar: true,
-                })
-            )
-            .finally(() => {
-                setLoading(false);
+    const handleGoogleSignIn = async () => {
+        setLoading(true); // Start loading early
+
+        try {
+            const result = await googleSignIn();
+
+            const user = result?.user;
+            if (!user) throw new Error("Google sign-in failed.");
+
+            // Save or update user in DB
+            await axiosDef.post("/users", {
+                uid: user.uid,
+                name: user.displayName,
+                email: user.email,
+                avatar: user.photoURL,
             });
+
+            toast.success("Welcome to nerdtalks!", {
+                position: "bottom-center",
+                autoClose: 3000,
+                theme: "dark",
+                transition: Bounce,
+                hideProgressBar: true,
+            });
+
+            navigate("/");
+        } catch (error) {
+            console.error("Google sign-in error:", error);
+            toast.error(error.message || "Something went wrong!", {
+                position: "bottom-center",
+                autoClose: 3000,
+                theme: "dark",
+                transition: Bounce,
+                hideProgressBar: true,
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const onSubmit = async (data) => {
@@ -74,7 +77,7 @@ const SignInPage = () => {
         try {
             // 1. Create Firebase user
             const userCredential = await createUser(email, password);
-            const uid = userCredential.user.uid;
+            const uid = userCredential?.user.uid;
 
             // 2. Upload image to imgbb
             const formData = new FormData();
@@ -97,7 +100,7 @@ const SignInPage = () => {
             await updateUser(name, avatarURL);
 
             // 4. Store user in your database
-            const res = await axiosDef.post("/users", {
+            await axiosDef.post("/users", {
                 uid,
                 name,
                 email,
@@ -132,7 +135,7 @@ const SignInPage = () => {
     return (
         <div className="flex items-center justify-center px-4 mt-5 relative">
             <div className="w-full max-w-md bg-slate-200/10 border border-slate-100/20 rounded-2xl shadow-lg p-4 sm:p-8">
-            <p className="text-center pb-2 font-medium sec-font">Sign In</p>
+                <p className="text-center pb-2 font-medium sec-font">Sign In</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
                         <label
