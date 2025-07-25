@@ -116,7 +116,7 @@ const Navbar = ({ announcements }) => {
                     className="text-xs sm:text-lg text-slate-200 link-hover link-style flex items-center gap-1 sm:gap-2"
                     to="/auth/login"
                 >
-                    <LogIn className="size-4 sm:size-5" />
+                    <LogIn className="size-5" />
                     <span className="hidden sm:block">Join Us</span>
                 </NavLink>
             )}

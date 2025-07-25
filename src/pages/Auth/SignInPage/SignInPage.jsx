@@ -255,7 +255,7 @@ const SignInPage = () => {
                         <button
                             type="button"
                             disabled
-                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-1.5 sm:py-2.5 text-center inline-flex items-center justify-center gap-2 transition duration-200"
+                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-2 sm:py-2.5 text-center inline-flex items-center justify-center gap-2 transition duration-200"
                         >
                             <svg
                                 className="animate-spin h-5 w-5 text-white"
@@ -282,7 +282,7 @@ const SignInPage = () => {
                     ) : (
                         <button
                             type="submit"
-                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-1.5 sm:py-2.5 text-center transition duration-200"
+                            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-2 sm:py-2.5 text-center transition duration-200"
                         >
                             Create your account
                         </button>
@@ -299,7 +299,7 @@ const SignInPage = () => {
                     <button
                         onClick={handleGoogleSignIn}
                         type="button"
-                        className="w-full flex items-center justify-center gap-2 text-white hover:bg-slate-200/15 border border-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-1.5 sm:py-2.5 transition duration-200"
+                        className="w-full flex items-center justify-center gap-2 text-white hover:bg-slate-200/15 border border-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-5 py-2 sm:py-2.5 transition duration-200"
                     >
                         <FcGoogle className="w-5 h-5" />
                         Sign up with Google
