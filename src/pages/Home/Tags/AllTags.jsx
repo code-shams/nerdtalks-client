@@ -118,7 +118,7 @@ const AllTags = ({ allTagsProps }) => {
             <div className="">
                 <div className="flex items-center gap-2 mb-4">
                     <Tag className="size-5 text-neutral-400" />
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="text-base font-semibold text-white">
                         All Categories
                     </h3>
                 </div>

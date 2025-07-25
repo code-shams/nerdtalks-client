@@ -42,16 +42,16 @@ const Announcements = ({ announcements }) => {
     return (
         <div className="space-y-6 pri-font pb-3 ">
             {/* Header */}
-            <div className="">
+            <div>
                 <div className="flex items-center gap-3 mb-2">
                     <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-500/30">
                         <Megaphone className="size-6 text-blue-400" />
                     </div>
                     <div>
-                        <h1 className="text-lg sm:text-2xl font-bold text-white">
+                        <h1 className="text-lg sm:text-xl font-bold text-white">
                             All Announcements
                         </h1>
-                        <p className="text-neutral-400 text-sm sm:text-base">
+                        <p className="text-neutral-400 text-sm">
                             Important updates and notifications from the team
                         </p>
                     </div>
@@ -64,7 +64,7 @@ const Announcements = ({ announcements }) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-1 gap-5">
                 {announcements.map((announcement) => {
                     const timeAgo = formatTimeAgo(announcement.createdAt);
 
@@ -78,17 +78,19 @@ const Announcements = ({ announcements }) => {
                             }`}
                         >
                             {/* Author Info */}
-                            <div className="flex items-center gap-3 pb-4 border-b border-neutral-800">
-                                <img
-                                    src={announcement.authorImage}
-                                    alt={announcement.authorName}
-                                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-neutral-700"
-                                />
+                            <div className="flex items-center gap-3 pb-4 border-b border-neutral-800 break-words">
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2 flex-wrap">
-                                        <h4 className="font-medium text-white text-sm sm:text-base">
-                                            {announcement.authorName}
-                                        </h4>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <img
+                                                src={announcement.authorImage}
+                                                alt={announcement.authorName}
+                                                className="w-8 h-8 rounded-full object-cover border-2 border-neutral-700"
+                                            />
+                                            <h4 className="font-medium text-white text-sm sm:text-base">
+                                                {announcement.authorName}
+                                            </h4>
+                                        </div>
                                         <div className="flex items-center gap-1 text-xs text-neutral-500">
                                             <User className="size-3" />
                                             <span className="truncate">
@@ -110,7 +112,7 @@ const Announcements = ({ announcements }) => {
                                 </div>
                             </div>
                             {/* Header with Pin Status */}
-                            <div className="flex items-start justify-between my-2">
+                            <div className="flex items-start justify-between flex-wrap my-2">
                                 <div className="flex items-center gap-2">
                                     {announcement.pinned && (
                                         <div className="flex items-center gap-1 text-blue-400 text-sm font-medium">
@@ -136,10 +138,10 @@ const Announcements = ({ announcements }) => {
 
                             {/* Announcement Content */}
                             <div className="mb-1">
-                                <h2 className="text-base sm:text-lg font-bold text-white mb-0.5">
+                                <h2 className="text-base lg:text-lg font-bold text-white mb-0.5">
                                     {announcement.title}
                                 </h2>
-                                <p className="text-neutral-300 text-sm sm:text-base leading-relaxed">
+                                <p className="text-neutral-300 text-sm lg:text-base leading-relaxed">
                                     {announcement.message}
                                 </p>
                             </div>

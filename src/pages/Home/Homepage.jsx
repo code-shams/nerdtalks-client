@@ -125,16 +125,6 @@ const Homepage = () => {
 
     return (
         <div className="relative pb-5">
-            {/* //?Annoucements */}
-            {announcementsData?.length ? (
-                <section className="contain pt-5 sm:py-10">
-                    <Announcements
-                        announcements={announcementsData}
-                    ></Announcements>
-                </section>
-            ) : (
-                ""
-            )}
             <section>
                 <Banner
                     searchTerm={searchTerm}
@@ -143,41 +133,27 @@ const Homepage = () => {
                 ></Banner>
             </section>
 
-            <section className="contain grid grid-cols-1 md:grid-cols-12 gap-5 pt-5 sm:pt-10">
+            <section className="contain grid grid-cols-1 md:grid-cols-12 md:gap-10 pt-5 sm:pt-10">
                 {postsLoading ? (
                     <div className="col-span-8 order-last sm:order-first">
                         <InPageLoading></InPageLoading>
                     </div>
                 ) : (
-                    <section className="col-span-8 order-last sm:order-first">
+                    <section className="md:col-span-8 order-last md:order-first mt-5 md:mt-0">
                         <AllPosts allPostsProps={allPostsProps}></AllPosts>
                     </section>
                 )}
-                <section className="contain col-span-4 hidden md:block">
-                    <AllTags allTagsProps={allTagsProps}></AllTags>
+                <section className="md:col-span-4">
+                    <div className="hidden md:block">
+                        <AllTags allTagsProps={allTagsProps}></AllTags>
+                    </div>
+                    <div className="md:py-10">
+                        <Announcements
+                            announcements={announcementsData}
+                        ></Announcements>
+                    </div>
                 </section>
             </section>
-
-            {/* //?Annoucements */}
-            {/* {announcementsData?.length ? (
-                <section className="contain pt-5 sm:pt-10">
-                    <Announcements
-                        announcements={announcementsData}
-                    ></Announcements>
-                </section>
-            ) : (
-                ""
-            )} */}
-
-            {/* {postsLoading ? (
-                <div className="max-w-4xl mx-auto pt-5">
-                    <InPageLoading></InPageLoading>
-                </div>
-            ) : (
-                <section className="contain pt-5">
-                    <AllPosts allPostsProps={allPostsProps}></AllPosts>
-                </section>
-            )} */}
 
             {/* //? Paginations */}
             {totalPages > 1 && (

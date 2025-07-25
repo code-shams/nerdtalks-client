@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router";
 import {
     TrendingUp,
@@ -6,22 +6,17 @@ import {
     MessageCircle,
     Clock,
     ArrowUpDown,
-    ChevronLeft,
-    ChevronRight,
     ThumbsUp,
 } from "lucide-react";
 import { format } from "date-fns";
-const AllPosts = ({ allPostsProps, handlePageChange }) => {
+const AllPosts = ({ allPostsProps }) => {
     const {
         postsData,
         setSortByPopularity,
         sortByPopularity,
         setCurrentPage,
-        currentPage,
         searchTerm,
     } = allPostsProps;
-
-    const postsPerPage = 5;
 
     // Calculate vote score
     const getVoteScore = (post) => {
@@ -53,12 +48,6 @@ const AllPosts = ({ allPostsProps, handlePageChange }) => {
         setCurrentPage(1); // Reset to first page when sorting changes
     };
 
-    // Handle pagination
-    // const handlePageChange = (page) => {
-    //     setCurrentPage(page);
-    //     window.scrollTo({ top: 0, behavior: "smooth" });
-    // };
-
     let { posts = [], total = 0, totalPages = 0 } = postsData || {};
 
     useEffect(() => {
@@ -69,9 +58,9 @@ const AllPosts = ({ allPostsProps, handlePageChange }) => {
     }, [searchTerm]);
 
     return (
-        <div className="space-y-6 pri-font pb-3">
+        <div className="space-y-3 md:space-y-6 pri-font pb-3">
             {/* Header with Sort Button */}
-            <div className="bg-[#121212] p-4 sm:p-6 rounded-2xl border border-neutral-800">
+            <div className="">
                 <div>
                     <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">
                         All Posts
@@ -118,7 +107,7 @@ const AllPosts = ({ allPostsProps, handlePageChange }) => {
                     </p>
                 </div>
             ) : (
-                <div className="space-y-5">
+                <div className="space-y-3 md:space-y-5">
                     {posts.map((post) => {
                         const voteScore = getVoteScore(post);
                         const timeAgo = formatTimeAgo(post.createdAt);
